@@ -1,0 +1,28 @@
+language: node_js
+node_js: stable
+branches:
+  only:
+  - master
+before_install:
+- git config --global user.name "Vivianluolita"
+- git config --global user.email "15071362462@163.com"
+install:
+# - npm install -g gitbook-cli
+- npm install --global vue-cli
+script:
+# - gitbook -V
+# - gitbook install
+- vue init webpack my-project
+- npm install element-ui --save-dev
+- npm install stylus --save-dev
+- npm install stylus-loader --save-dev
+# - gitbook build
+- npm run build
+- cd dist
+- git init
+- git commit --allow-empty -m 'update'
+- git checkout -b gh-pages && touch .nojekyll
+- git add .
+- git commit -am 'update'
+after_success:
+- git push https://$REPO_TOKEN@github.com/Vivianluolita/component gh-pages --force
