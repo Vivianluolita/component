@@ -1,113 +1,210 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+  <div class="component">
+    <search :list="searchList" @search="search"></search>
   </div>
 </template>
 
 <script>
+import search from "./children/search";
 export default {
   name: 'HelloWorld',
+  components: {
+    search,
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      searchList: [
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Source1'
+            }, {
+              value: '2',
+              label: 'Source2'
+            }, {
+              value: '3',
+              label: 'Source3'
+            }, {
+              value: '4',
+              label: 'Source4'
+            }, {
+              value: '5',
+              label: 'Source5'
+            }
+          ],
+          value: '',
+          key: 'source',
+          placeholder: 'Source'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Sub-source1'
+            }, {
+              value: '2',
+              label: 'Sub-source2'
+            }, {
+              value: '3',
+              label: 'Sub-source3'
+            }, {
+              value: '4',
+              label: 'Sub-source4'
+            }, {
+              value: '5',
+              label: 'Sub-source5'
+            }
+          ],
+          value: '',
+          key: 'sub-source',
+          placeholder: 'Sub-source'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Segment1'
+            }, {
+              value: '2',
+              label: 'Segment2'
+            }, {
+              value: '3',
+              label: 'Segment3'
+            }, {
+              value: '4',
+              label: 'Segment4'
+            }, {
+              value: '5',
+              label: 'Segment5'
+            }
+          ],
+          value: '',
+          key: 'segment',
+          placeholder: 'Segment'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Target Demographic Care1'
+            }, {
+              value: '2',
+              label: 'Target Demographic Care2'
+            }, {
+              value: '3',
+              label: 'Target Demographic Care3'
+            }, {
+              value: '4',
+              label: 'Target Demographic Care4'
+            }, {
+              value: '5',
+              label: 'Target Demographic Care5'
+            }
+          ],
+          value: '',
+          key: 'target',
+          placeholder: 'Target Demographic Care'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Year1'
+            }, {
+              value: '2',
+              label: 'Year2'
+            }, {
+              value: '3',
+              label: 'Year3'
+            }, {
+              value: '4',
+              label: 'Year4'
+            }, {
+              value: '5',
+              label: 'Year5'
+            }
+          ],
+          value: '',
+          key: 'year',
+          placeholder: 'Year'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Key Words1'
+            }, {
+              value: '2',
+              label: 'Key Words2'
+            }, {
+              value: '3',
+              label: 'Key Words3'
+            }, {
+              value: '4',
+              label: 'Key Words4'
+            }, {
+              value: '5',
+              label: 'Key Words5'
+            }
+          ],
+          value: '',
+          key: 'words',
+          placeholder: 'Key Words'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Focus Product1'
+            }, {
+              value: '2',
+              label: 'Focus Product2'
+            }, {
+              value: '3',
+              label: 'Focus Product3'
+            }, {
+              value: '4',
+              label: 'Focus Product4'
+            }, {
+              value: '5',
+              label: 'Focus Product5'
+            }
+          ],
+          value: '',
+          key: 'product',
+          placeholder: 'Focus Product'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Submitted by1'
+            }, {
+              value: '2',
+              label: 'Submitted by2'
+            }, {
+              value: '3',
+              label: 'Submitted by3'
+            }, {
+              value: '4',
+              label: 'Submitted by4'
+            }, {
+              value: '5',
+              label: 'Submitted by5'
+            }
+          ],
+          value: '',
+          key: 'submit',
+          placeholder: 'Submitted by'
+        }
+      ],
+      tableList: []
     }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+<style lang="stylus" scoped>
+
 </style>
