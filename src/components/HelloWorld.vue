@@ -1,15 +1,22 @@
 <template>
   <div class="component">
+    <tab :option="tabOption" @change="onTabChange">
+      <button slot="button" class="edit" @click="add">+ Add New Trend</button>
+    </tab>
+    <div>11</div>
+    <div v-show="option.activeName === 1">222</div>
     <search :list="searchList" @search="search"></search>
   </div>
 </template>
 
 <script>
 import search from "./children/search";
+import tab from "./children/tab";
 export default {
   name: 'HelloWorld',
   components: {
     search,
+    tab
   },
   data () {
     return {
@@ -199,7 +206,37 @@ export default {
           placeholder: 'Submitted by'
         }
       ],
-      tableList: []
+      tabOption: {
+        activeName: '1',
+        list: [
+          {
+            label: 'Approved',
+            value: '1'
+          },
+          {
+            label: 'Pending Approval',
+            value: '2',
+            badge: '100+'
+          },
+          {
+            label: 'Denied',
+            value: '3',
+            badge: '10'
+          },
+          {
+            label: 'Draft',
+            value: '4'
+          }
+
+        ]
+
+      },
+    }
+  },
+  methods: {
+     onTabChange (e) {
+      // 点击以后 badge 应该要变
+      this.tabOption.activeName = e
     }
   }
 }
