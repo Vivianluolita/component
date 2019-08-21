@@ -3,8 +3,6 @@
     <tab :option="tabOption" @change="onTabChange">
       <button slot="button" class="edit" @click="add">+ Add New Trend</button>
     </tab>
-    <div>11</div>
-    <div v-show="option.activeName === 1">222</div>
     <search :list="searchList" @search="search"></search>
   </div>
 </template>
