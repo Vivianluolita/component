@@ -4,17 +4,43 @@
       <button slot="button" class="edit" @click="add">+ Add New Trend</button>
     </tab>
     <search :list="searchList" @search="search"></search>
+    <myTable :tableData="tableList"></myTable>
+    <my-first-label :title="$t('txt.claims')">
+      <my-letter-search>
+        <my-letter slot="letter" initLetter="A" name="claims" @update="changeClaimsLetter"></my-letter>
+        <my-search-list
+          v-if="bevolGoodsClaims"
+          slot="searchList"
+          :letter="claimsLetter"
+          ref="claims"
+          name="claims"
+          :list="bevolGoodsClaims"
+          @inputValChange="inputValClaimsChange"
+        ></my-search-list>
+      </my-letter-search>
+    </my-first-label>
+    <div v-show="selectedClaims.length" class="zdh-query-item">
+      <span class="zdh-query-label font1-12-333">{{$t('txt.claims')}}:</span>
+      <ul v-show="selectedClaims.length" class="ctgrys-show-list">
+        <li v-for="(item, idxx) in selectedClaims">
+          {{item.title}}
+          <i @click="removeClaim(item)" class="el-icon-close zdh-pointer"></i>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import search from "./children/search";
 import tab from "./children/tab";
+import table from "./children/table";
 export default {
   name: 'HelloWorld',
   components: {
     search,
-    tab
+    tab,
+    table
   },
   data () {
     return {
@@ -229,13 +255,37 @@ export default {
         ]
 
       },
+      tableList: []
     }
   },
   methods: {
      onTabChange (e) {
       // 点击以后 badge 应该要变
       this.tabOption.activeName = e
-    }
+    },
+    inputValClaimsChange (obj) {
+      // console.log('inputValClaimsChange', obj)
+      if (obj.check) {
+        const newCatgrys = [...obj.catgry, ...this.selectedClaims]
+        const res = new Map()
+        this.selectedClaims = newCatgrys.filter((a) => !res.has(a.id || a.ids) && res.set(a.id || a.ids, 1))
+        // console.log(this.selectedClaims)
+      } else {
+        obj.catgry.forEach(c => {
+          this.selectedClaims = this.selectedClaims.filter(item => {
+            return (c.id || c.ids) != (item.id || item.ids)
+          })
+        })
+      }
+    },
+    removeClaim (claim) {
+      debugger
+      let idx = this.$refs['claims'].inputVal.indexOf(claim.id || claim.ids)
+      if (idx != -1) {
+        this.$refs['claims'].inputVal.splice(idx, 1)
+      }
+      this.selectedClaims.splice(this.selectedClaims.indexOf(claim), 1)
+    },
   }
 }
 </script>
