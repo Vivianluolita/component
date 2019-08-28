@@ -5,7 +5,7 @@
     </tab>
     <search :list="searchList" @search="search"></search>
     <myTable :tableData="tableList"></myTable>
-    <my-first-label :title="$t('txt.claims')">
+    <!-- <my-first-label :title="$t('txt.claims')">
       <my-letter-search>
         <my-letter slot="letter" initLetter="A" name="claims" @update="changeClaimsLetter"></my-letter>
         <my-search-list
@@ -27,7 +27,7 @@
           <i @click="removeClaim(item)" class="el-icon-close zdh-pointer"></i>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 
