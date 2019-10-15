@@ -1,9 +1,17 @@
 <template>
   <div class="component">
-    <div>
-      接收用户： <div></div>
-      <button class="btn btn-green" @click="addPerson">新增人员</button>
-    </div>
+    <el-row :gutter="60" class="wrap">
+      <el-col :span="18">
+        <span>接收用户：</span>
+      </el-col>
+      <el-col :span="6">
+        <button class="btn btn-green" @click="addPerson">新增人员</button>
+      </el-col>
+    </el-row>
+    <edit-dialog
+      :isShow="dialogAddPerson"
+      @close-dialog="dialogAddPerson=false"
+    ></edit-dialog>
     <!-- <tab :option="tabOption" @change="onTabChange">
       <button slot="button" class="edit" @click="add">+ Add New Trend</button>
     </tab>
@@ -39,15 +47,18 @@
 // import search from "./children/search";
 // import tab from "./children/tab";
 // import table from "./children/table";
+import editDialog from './children/editDialog'
 export default {
   name: 'HelloWorld',
   components: {
+    editDialog
     // search,
     // tab,
     // table
   },
   data () {
     return {
+      dialogAddPerson: false,
       // searchList: [
       //   {
       //     options: [
@@ -263,6 +274,10 @@ export default {
     }
   },
   methods: {
+    addPerson () {
+      console.log("111");
+      this.dialogAddPerson = true
+    }
     // onTabChange (e) {
     //   // 点击以后 badge 应该要变
     //   this.tabOption.activeName = e
