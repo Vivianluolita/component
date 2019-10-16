@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import {mapGetters, mapState, mapMutations,mapActions} from 'vuex';
 // import editPerson from './editPerson'
 export default {
@@ -50,37 +51,43 @@ export default {
     },
     data() {
         return {
-            tableDataAll: [{
-                date: '2016-05-03',
-                name: '王小虎12',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-02',
-                name: '王小虎23',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-04',
-                name: '王小虎34',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-01',
-                name: '王小虎44',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-08',
-                name: '王小虎55',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-06',
-                name: '王小虎63',
-                address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                date: '2016-05-07',
-                name: '王小虎47',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }],
+            tableDataAll: [],
+            // tableDataAll: [{
+            //     date: '2016-05-03',
+            //     name: '王小虎12',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            //     }, {
+            //     date: '2016-05-02',
+            //     name: '王小虎23',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            //     }, {
+            //     date: '2016-05-04',
+            //     name: '王小虎34',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            //     }, {
+            //     date: '2016-05-01',
+            //     name: '王小虎44',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            //     }, {
+            //     date: '2016-05-08',
+            //     name: '王小虎55',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            //     }, {
+            //     date: '2016-05-06',
+            //     name: '王小虎63',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            //     }, {
+            //     date: '2016-05-07',
+            //     name: '王小虎47',
+            //     address: '上海市普陀区金沙江路 1518 弄'
+            // }],
             multipleSelection: []
         }
+    },
+    created() {
+        axios.get('/api/getTable').then((response)=>{
+            this.tableDataAll = response.data.datas;
+        });  
     },
     props:{
         isShow: {
@@ -142,9 +149,9 @@ export default {
             this.isVisible = false;
         }
     },
-    created() {
-        console.log(this.tableData)
-    },
+    // created() {
+    //     console.log(this.tableData)
+    // },
     computed: {
         ...mapState([
             'tableData'

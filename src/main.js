@@ -5,7 +5,12 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import store from './store'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios);
 import 'element-ui/lib/theme-chalk/index.css'
+import Mock from './mock/mock'
+Mock.mockData();
 Vue.use(ElementUI)
 
 
