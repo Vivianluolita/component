@@ -32,7 +32,7 @@
             :total="pager.total">
         </el-pagination>
         <div class="dialog-footer">
-            <el-button type="info" size="small" @click="isVisible=false">取消</el-button>
+            <el-button type="info" size="small" @click="cancel">取消</el-button>
             <el-button type="primary" size="small" @click="confirm">确定</el-button>
         </div>
     </div>
@@ -93,7 +93,11 @@ export default {
         isShow: {
             type: Boolean,
             default: false
-        }
+        },
+        isShowUser: {
+            type: Boolean,
+            default: false
+        },
     },
     methods: {
         ...mapMutations({
@@ -147,6 +151,14 @@ export default {
         confirm () {
             this.$message('success')
             this.isVisible = false;
+            this.isShowUser = true;
+            this.$emit("change-user",this.isShowUser)
+        },
+        cancel () {
+            this.isVisible=false
+            this.isShowUser = false;
+            // this.$emit("change-user",this.isShowUser)
+
         }
     },
     // created() {

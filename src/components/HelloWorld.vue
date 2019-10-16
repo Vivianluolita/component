@@ -1,9 +1,11 @@
 <template>
   <div class="component">
     <el-row :gutter="60" class="wrap">
-      <el-col :span="18">
+      <el-col :span="6">
         <span>接收用户：</span>
-        <div v-for="(item, index) in tableData" :key="index" class="nameShow">
+      </el-col>
+      <el-col :span="12" v-show="isShowUser">
+        <div  v-for="(item, index) in tableData" :key="index" class="nameShow">
           <span>{{item.name}}</span>
           <div class="icon-delete" @click="deleteItem(index)">x</div>
         </div>
@@ -15,7 +17,9 @@
     <edit-dialog
       ref="editDialog"
       :isShow="dialogAddPerson"
+      :isShowUser="isShowUser"
       @close-dialog="dialogAddPerson=false"
+      @change-user="changeUser"
     ></edit-dialog>
   
   </div>
@@ -33,7 +37,8 @@ export default {
   data () {
     return {
       dialogAddPerson: false,
-      user:{}
+      user:{},
+      isShowUser:false
     }
   },
   // created() {
@@ -65,6 +70,9 @@ export default {
   
     deleteItem (index) {
       this.$refs.editDialog.toggleSelection(index)
+    },
+    changeUser (flag) {
+      this.isShowUser = flag
     }
    
   },
