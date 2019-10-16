@@ -3,12 +3,17 @@
     <el-row :gutter="60" class="wrap">
       <el-col :span="18">
         <span>接收用户：</span>
+        <div v-for="(item, index) in tableData" :key="index" class="nameShow">
+          <span>{{item.name}}</span>
+          <div class="icon-delete" @click="deleteItem(index)">x</div>
+        </div>
       </el-col>
       <el-col :span="6">
-        <button class="btn btn-green" @click="addPerson">新增人员</button>
+        <button class="btn-green" @click="addPerson">新增人员</button>
       </el-col>
     </el-row>
     <edit-dialog
+      ref="editDialog"
       :isShow="dialogAddPerson"
       @close-dialog="dialogAddPerson=false"
     ></edit-dialog>
@@ -48,6 +53,7 @@
 // import tab from "./children/tab";
 // import table from "./children/table";
 import editDialog from './children/editDialog'
+import {mapGetters, mapState, mapMutations} from 'vuex';
 export default {
   name: 'HelloWorld',
   components: {
@@ -274,9 +280,21 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      delTableData:'DEL_TABLEDATA'
+    }),
     addPerson () {
       console.log("111");
       this.dialogAddPerson = true
+    },
+    // addDialogPerson (person) {
+    //   console.log(person);
+    //   this.choosePerson = person
+    //   console.log(this.choosePerson);
+    // },
+    deleteItem (index) {
+      this.$refs.editDialog.toggleSelection(index)
+      // this.delTableData(index)
     }
     // onTabChange (e) {
     //   // 点击以后 badge 应该要变
@@ -305,10 +323,33 @@ export default {
     //   }
     //   this.selectedClaims.splice(this.selectedClaims.indexOf(claim), 1)
     // },
-  }
+  },
+  computed: {
+    ...mapState([
+        'tableData'
+    ]),
+}
 }
 </script>
 
 <style lang="stylus" scoped>
-
+.nameShow {
+    position: relative;
+    float: right;
+    margin: 0 10px;
+    .icon-delete {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      line-height: 13px;
+      width: 15px;
+      height: 15px;
+      color: #fff;
+      border-radius: 50%;
+      background-color: #ccc;
+      text-align: center;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  }
 </style>
