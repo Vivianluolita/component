@@ -24,7 +24,6 @@
         </el-table>
         <!-- 分页 -->
         <el-pagination
-            v-if="pager.total>0"
             class="zdh-ta-center"
             @current-change="handleCurrentChange"
             :current-page.sync="pager.current"
@@ -37,13 +36,12 @@
             <el-button type="primary" size="small" @click="confirm">确定</el-button>
         </div>
     </div>
-        <!-- <editPerson :tableData="tableList"></editPerson> -->
     </div>
   </el-dialog>
 </template>
 
 <script>
-import {mapGetters, mapState, mapMutations} from 'vuex';
+import {mapGetters, mapState, mapMutations,mapActions} from 'vuex';
 // import editPerson from './editPerson'
 export default {
     name:'editDialog',

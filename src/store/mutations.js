@@ -8,11 +8,11 @@ const mutations = {
         console.log("111"+state.tableData)
     },
     // 分页
-    [UPDATE_TOTAL] (state, total) {
+    [types.UPDATE_TOTAL] (state, total) {
         state.pager = { ...state.pager, total }
     },
     // 分页 查询
-    [UPDATE_SEARCH] (state, { pager, pageParam }) {
+    [types.UPDATE_SEARCH] (state, { pager, pageParam }) {
         state.pager = pager
         if (pageParam) state.pageParam = pageParam
     }

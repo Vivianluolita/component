@@ -12,25 +12,19 @@ const actions = {
         email: '',
         address: '',
         }
-        commit(UPDATE_SEARCH, { pager, params })
+        commit(types.UPDATE_SEARCH, { pager, params })
     },
     // 分页 设置page
     setPagerApi ({commit}, pager) {
-        commit(UPDATE_SEARCH, { pager })
+        commit(types.UPDATE_SEARCH, { pager })
     },
-    /**
-    * tab new切换
-    * @param {*} { commit }
-    * @param {*} params
-    */
-    async getNewTabListDataApi ({ state, commit }, params) {
-        commit(UPDATE_NEWLOADING, true)
-        try {
-        let { data: res } = await getTabListData({...state.tabListNewParams, ...params})
-        commit(UPDATE_NEWTABLISTDATA, res)
-        commit(UPDATE_TOTAL, res.total)
-        } catch (e) {
-        }
-        commit(UPDATE_NEWLOADING, false)
-    },
+
+    // async getNewTabListDataApi ({ state, commit }, params) {
+    //     try {
+    //     let { data: res } = await getTabListData({...state.tabListNewParams, ...params})
+    //     // commit(types.UPDATE_TABLISTDATA, res)
+    //     commit(types.UPDATE_TOTAL, res.total)
+    //     } catch (e) {
+    //     }
+    // },
 }
