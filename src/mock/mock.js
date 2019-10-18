@@ -15,11 +15,12 @@ export default {
     });
     Mock.mock('/api/getTable', {
       "code": "000",
-      "datas|5-25": [
+      "datas|10": [
         {
           "date": '@date("yyyy-MM-dd")',
           "name": "@cname",
-          "address": "@country(true)"
+          "address": "@country(true)",
+          "id": "@integer(20,100)"
         }
       ]
     });

@@ -10,11 +10,13 @@
         <div class="user-table">
         <el-table 
             ref="multipleTable"
-            :data="tableDataAll" 
+            :data="tableDataAll.slice((currentPage-1)*pagesize,currentPage*pagesize)" 
             tooltip-effect="dark"
             style="width: 100%"
+            :row-key="getRowKeys"
             @selection-change="handleSelectionChange">
             <el-table-column
+            :reserve-selection="true"
             type="selection"
             width="55">
             </el-table-column>
@@ -25,11 +27,13 @@
         <!-- 分页 -->
         <el-pagination
             class="zdh-ta-center"
+            @size-change="handleSizeChange" 
             @current-change="handleCurrentChange"
-            :current-page.sync="pager.current"
-            :page-size="10"
+            :current-page.sync="currentPage"
+            :page-sizes="[5, 10, 20, 40]"
+            :page-size="pagesize" 
             layout="prev, pager, next, jumper"
-            :total="pager.total">
+            :total="tableDataAll.length">
         </el-pagination>
         <div class="dialog-footer">
             <el-button type="info" size="small" @click="cancel">取消</el-button>
@@ -51,37 +55,21 @@ export default {
     },
     data() {
         return {
+            currentPage: 1, //默认显示页面为1
+			pagesize: 5, //    每页的数据条数
             tableDataAll: [],
-            // tableDataAll: [{
-            //     date: '2016-05-03',
-            //     name: '王小虎12',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            //     }, {
-            //     date: '2016-05-02',
-            //     name: '王小虎23',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            //     }, {
-            //     date: '2016-05-04',
-            //     name: '王小虎34',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            //     }, {
-            //     date: '2016-05-01',
-            //     name: '王小虎44',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            //     }, {
-            //     date: '2016-05-08',
-            //     name: '王小虎55',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            //     }, {
-            //     date: '2016-05-06',
-            //     name: '王小虎63',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            //     }, {
-            //     date: '2016-05-07',
-            //     name: '王小虎47',
-            //     address: '上海市普陀区金沙江路 1518 弄'
-            // }],
-            multipleSelection: []
+            multipleSelection: [],
+            //点击确定按钮后将上面选中的数据存入该数组
+            dataSure:[],
+            //记录每行的key值
+            getRowKeys(row){
+                return row.id
+            },
+            //表格select选中的条数
+            select_order_number:'',
+            //表格select选中的id
+            select_orderId:[]
+
         }
     },
     created() {
@@ -104,8 +92,9 @@ export default {
             setTableDate:'SET_TABLEDATE'
         }),
         ...mapActions([
-            'setPagerApi'
+            'getStepDataApi'
         ]),
+        
         // 分页 查询参数组合
         getParams () {
             const { current, size } = this.pager
@@ -117,28 +106,49 @@ export default {
             }
         },
         // 分页跳转
-        pageChange (current) {
-        this.setPagerApi({ ...this.pager, current })
-        const searchParams = this.getParams()
-        this.getTableDataApi(searchParams)
+        // pageChange (current) {
+        // this.setPagerApi({ ...this.pager, current })
+        // const searchParams = this.getParams()
+        // this.getTableDataApi(searchParams)
+        // },
+        //每页下拉显示数据
+        handleSizeChange: function(size) {
+            this.pagesize = size;
+            /*console.log(this.pagesize) */
+        },
+        //点击第几页
+        handleCurrentChange: function(currentPage) {
+            this.currentPage = currentPage;
+            /*console.log(this.currentPage) */
         },
         // 分页跳转 设置页码
-        async handleCurrentChange (current) {
-            // 更新分页 页数
-            await this.setPagerApi({ ...this.pager, ...current })
-            const searchParams = {...this.getParams()}
-            // await this.getTabListDataApi({...searchParams})
-        },
+        // async handleCurrentChange (current) {
+        //     await this.setPagerApi({ ...this.pager, ...current })
+        //     const searchParams = {...this.getParams()}
+        //     // await this.getTabListDataApi({...searchParams})
+        // },
         // 分页 设置page
-        setPagerApi ({commit}, pager) {
-            console.log(pager)
-            commit(UPDATE_SEARCH, {pager})
-        },
+        // setPagerApi ({commit}, pager) {
+        //     console.log(pager)
+        //     commit(UPDATE_SEARCH, {pager})
+        // },
         handleSelectionChange(val) {
             this.multipleSelection = val;
             console.log("handleSelectionChange"+this.multipleSelection)
+            this.select_order_number = this.multipleSelection.length
+            this.select_orderId = []
+            if (val) {
+                val.forEach(row => {
+                    if (row) {
+                        this.select_orderId.push(row.id)
+                    }
+                })
+            }
             // this.setPerson({ ...multipleSelection })
             this.setTableDate(this.multipleSelection)
+            // if(this.isShowUser){
+            //     this.setTableDate(this.multipleSelection)
+            // }
             // this.$emit("add-person",this.multipleSelection)
         },
         toggleSelection(index) {
@@ -153,6 +163,7 @@ export default {
             this.isVisible = false;
             this.isShowUser = true;
             this.$emit("change-user",this.isShowUser)
+            this.setConfirmDate(this.multipleSelection)
         },
         cancel () {
             this.isVisible=false
