@@ -4,8 +4,8 @@
       <el-col :span="6">
         <span>接收用户：</span>
       </el-col>
-      <el-col :span="12" v-show="isShowUser">
-        <div  v-for="(item, index) in tableData" :key="index" class="nameShow">
+      <el-col :span="12" v-show="isShowUsers">
+        <div  v-for="(item, index) in confirmData" :key="index" class="nameShow">
           <span>{{item.name}}</span>
           <div class="icon-delete" @click="deleteItem(index)">x</div>
         </div>
@@ -17,8 +17,8 @@
     <edit-dialog
       ref="editDialog"
       :isShow="dialogAddPerson"
-      :isShowUser="isShowUser"
-      @close-dialog="dialogAddPerson=false"
+      :isShowUser="isShowUsers"
+      @close-dialog="closeDialog"
       @change-user="changeUser"
     ></edit-dialog>
   
@@ -38,7 +38,7 @@ export default {
     return {
       dialogAddPerson: false,
       user:{},
-      isShowUser:false
+      isShowUsers:false
     }
   },
   // created() {
@@ -61,24 +61,29 @@ export default {
   // },
   methods: {
     ...mapMutations({
-      delTableData:'DEL_TABLEDATA'
+      delTableData:'DEL_TABLEDATA',
+      setConfirmData:'SET_COFIRMDATA'
     }),
     addPerson () {
       console.log("111");
       this.dialogAddPerson = true
     },
-  
+    closeDialog() {
+      this.dialogAddPerson=false
+      // this.$refs.editDialog.cancel()
+    },
     deleteItem (index) {
       this.$refs.editDialog.toggleSelection(index)
     },
     changeUser (flag) {
-      this.isShowUser = flag
+      this.isShowUsers = flag
     }
    
   },
   computed: {
     ...mapState([
-        'tableData'
+        'tableData',
+        'confirmData'
     ]),
 }
 }

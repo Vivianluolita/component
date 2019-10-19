@@ -3,6 +3,7 @@
         title="选择员工"
         width="768px"
         :visible.sync="isVisible"
+        :before-close="handleClose"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
     >
@@ -59,6 +60,7 @@ export default {
 			pagesize: 5, //    每页的数据条数
             tableDataAll: [],
             multipleSelection: [],
+            isShowUser: false,
             //点击确定按钮后将上面选中的数据存入该数组
             dataSure:[],
             //记录每行的key值
@@ -82,18 +84,23 @@ export default {
             type: Boolean,
             default: false
         },
-        isShowUser: {
-            type: Boolean,
-            default: false
-        },
+        // isShowUser: {
+        //     type: Boolean,
+        //     default: false
+        // },
     },
     methods: {
         ...mapMutations({
-            setTableDate:'SET_TABLEDATE'
+            setTableDate:'SET_TABLEDATE',
+            setConfirmData:'SET_COFIRMDATA',
+            setCancelData:'SET_CONCELDATA',
+            setCancelChecked:'SET_CANCELCHECKED',
+            setClearChecked:'SET_CLEARCHECKED',
+            deleteConfirmData:'DELETE_CONFIRMDATA'
         }),
-        ...mapActions([
-            'getStepDataApi'
-        ]),
+        // ...mapActions([
+        //     'getStepDataApi'
+        // ]),
         
         // 分页 查询参数组合
         getParams () {
@@ -132,6 +139,9 @@ export default {
         //     console.log(pager)
         //     commit(UPDATE_SEARCH, {pager})
         // },
+        handleClose() {
+            this.cancel()
+        },
         handleSelectionChange(val) {
             this.multipleSelection = val;
             console.log("handleSelectionChange"+this.multipleSelection)
@@ -153,9 +163,8 @@ export default {
         },
         toggleSelection(index) {
             //先切状态再删
-            console.log(this.tableData[index])
-           this.$refs.multipleTable.toggleRowSelection(this.tableData[index]);
-         
+           this.$refs.multipleTable.toggleRowSelection(this.confirmData[index]);
+           this.deleteConfirmData(index)
         },
        
         confirm () {
@@ -163,13 +172,28 @@ export default {
             this.isVisible = false;
             this.isShowUser = true;
             this.$emit("change-user",this.isShowUser)
-            this.setConfirmDate(this.multipleSelection)
+            this.setConfirmData(this.multipleSelection)
         },
         cancel () {
             this.isVisible=false
             this.isShowUser = false;
+            // //取消的时候的回显数据为上一次显示的数据
+            this.setCancelData(this.confirmData)
+            //过滤取消数据
+            this.setCancelChecked()
+            //取消选中效果
+            this.clearChecked()
+            //将取消时点击的数据置空
+            this.setClearChecked()
             // this.$emit("change-user",this.isShowUser)
 
+        },
+        clearChecked () {
+            if(this.cancelChecked){
+                this.cancelChecked.forEach(row => {
+                this.$refs.multipleTable.toggleRowSelection(row);
+                });
+            }
         }
     },
     // created() {
@@ -177,7 +201,9 @@ export default {
     // },
     computed: {
         ...mapState([
-            'tableData'
+            'tableData',
+            'confirmData',
+            'cancelChecked'
         ]),
         ...mapGetters([
             'pager'
@@ -188,6 +214,7 @@ export default {
             },
             set (val) {
                 this.$emit('close-dialog')
+
             }
         }
     }

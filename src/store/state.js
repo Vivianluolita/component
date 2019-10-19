@@ -1,5 +1,8 @@
 const state = {
     tableData:[],
+    confirmData:[],
+    cancelChecked:[],
+
     // 分页参数
     pager: {
         current: 1,
