@@ -1,6 +1,6 @@
 <template>
   <div class="component">
-    <!-- <el-row :gutter="60" class="wrap">
+    <el-row :gutter="60" class="wrap">
       <el-col :span="6">
         <span>接收用户：</span>
       </el-col>
@@ -20,8 +20,7 @@
       :isShowUser="isShowUsers"
       @close-dialog="closeDialog"
       @change-user="changeUser"
-    ></edit-dialog> -->
-  
+    ></edit-dialog>
   </div>
 </template>
 
