@@ -29,12 +29,12 @@ export default {
     return {
       navList:[ 
   			{name:'/components/EditPerson',navItem:'添加人员'}, 
-  			{name:'/components/Management',navItem:'权限管理'},
-  			{name:'/components/User',navItem:'用户管理'}, 
-  			{name:'/components/Personnel',navItem:'人员数据'}, 
-  			{name:'/components/Alarm',navItem:'报警中心'}, 
-  			{name:'/components/Asset',navItem:'资产中心'},
-  			{name:'/components/Map',navItem:'地图中心'},
+  			// {name:'/components/Management',navItem:'权限管理'},
+  			// {name:'/components/User',navItem:'用户管理'}, 
+  			// {name:'/components/Personnel',navItem:'人员数据'}, 
+  			// {name:'/components/Alarm',navItem:'报警中心'}, 
+  			// {name:'/components/Asset',navItem:'资产中心'},
+  			// {name:'/components/Map',navItem:'地图中心'},
   		]
     };
   },
