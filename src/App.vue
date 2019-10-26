@@ -29,7 +29,7 @@ export default {
     return {
       navList:[ 
   			{name:'/components/EditPerson',navItem:'添加人员'}, 
-  			// {name:'/components/Management',navItem:'权限管理'},
+  			{name:'/components/ShowPerson',navItem:'展示人员'},
   			// {name:'/components/User',navItem:'用户管理'}, 
   			// {name:'/components/Personnel',navItem:'人员数据'}, 
   			// {name:'/components/Alarm',navItem:'报警中心'}, 
