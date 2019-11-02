@@ -4,7 +4,7 @@
       <button slot="button" class="edit" @click="add">+ Add New Trend</button>
     </tab>
     <search :list="searchList" @search="search"></search>
-    <myTable :tableData="tableList"></myTable>
+    <table :tableData="tableList"></table>
     <!-- <my-first-label :title="$t('txt.claims')">
       <my-letter-search>
         <my-letter slot="letter" initLetter="A" name="claims" @update="changeClaimsLetter"></my-letter>
@@ -264,6 +264,9 @@ export default {
       // 点击以后 badge 应该要变
       this.tabOption.activeName = e
     },
+    add() {
+        
+    }
     // inputValClaimsChange (obj) {
     //   // console.log('inputValClaimsChange', obj)
     //   if (obj.check) {

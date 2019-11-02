@@ -65,7 +65,6 @@ export default {
       setConfirmData:'SET_COFIRMDATA'
     }),
     addPerson () {
-      console.log("111");
       this.dialogAddPerson = true
     },
     closeDialog() {

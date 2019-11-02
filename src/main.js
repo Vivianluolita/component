@@ -15,7 +15,20 @@ Vue.use(ElementUI)
 
 
 Vue.config.productionTip = false
-
+// 也可以在index.js routes里面配置路由独享的守卫
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+  // ...
+})
+// 全局解析守卫
+router.beforeResolve((to, from, next) => {
+  // ...
+})
+// 全局后置钩子
+router.afterEach((to, from) => {
+  // ...
+})
+// 组件内守卫 beforeRouteEnter，beforeRouteUpdate ，beforeRouteLeave
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
