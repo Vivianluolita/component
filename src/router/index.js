@@ -4,6 +4,8 @@ import HelloWorld from '@/components/HelloWorld'
 import EditPerson from '@/components/EditPerson'
 import ShowPerson from '@/components/ShowPerson'
 import TextPerson from '@/components/TextPerson'
+import TesElemen from '@/components/TesElemen'
+import TestTable from '@/components/TestTable'
 
 //模块化机制编程
 Vue.use(Router)
@@ -28,6 +30,16 @@ export default new Router({
       path: '/components/TextPerson',
       name: 'TextPerson',
       component: TextPerson
+    },
+    {
+      path: '/components/TesElemen',
+      name: 'TesElemen',
+      component: TesElemen
+    },
+    {
+      path: '/components/TestTable',
+      name: 'TestTable',
+      component: TestTable
     }
   ]
 })
