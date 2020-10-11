@@ -10,6 +10,8 @@ import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios);
 import "element-ui/lib/theme-chalk/index.css";
 import Mock from "./mock/mock";
+import echarts from 'echarts';
+Vue.prototype.$echarts = echarts;
 Mock.mockData();
 Vue.use(ElementUI);
 
