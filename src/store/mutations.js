@@ -1,21 +1,26 @@
 import * as types from './mutation-type'
 const mutations = {
     [types.SET_TABLEDATE](state, tableData) {
+        debugger
         state.tableData = tableData
     },
     [types.DEL_TABLEDATA](state, index) {
+        debugger
         state.tableData = state.tableData.filter((v, i) => i !== index)
         console.log("tableData"+state.tableData)
     },
     [types.DELETE_CONFIRMDATA](state, index) {
+        debugger
         state.confirmData = state.confirmData.filter((v, i) => i !== index)
         console.log("tableData"+state.confirmData)
     },
     [types.SET_COFIRMDATA](state, confirmData) {
+        debugger
         state.confirmData = confirmData
         console.log("confirmData"+state.confirmData)
     },
     [types.SET_CONCELDATA](state, cancelData) {
+        debugger
         state.confirmData = cancelData
         console.log("confirmData"+state.confirmData)
     },
@@ -34,6 +39,7 @@ const mutations = {
         console.log("cancelChecked"+state.cancelChecked)
     },
     [types.SET_CLEARCHECKED](state) {
+        debugger
         state.cancelChecked = []
     },
     // 分页
