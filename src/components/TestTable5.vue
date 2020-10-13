@@ -99,22 +99,22 @@
         </el-row>
       </el-form-item>
       <el-form-item label="评级标尺项" prop="rulerItems">
-        <el-table
+        <xn-table
           ref="saveTab"
-          :data="editForm.rulerItems"
+          :data="editForm.planDataList"
           style="width: 100%;margin-top: 20px"
-          :height="250"
+          :height="300"
           :showPagination="false"
         >
           <el-table-column align="center" width="50px">
             <template slot="header" slot-scope="scope">
-              <xn-col-button @click="addRulerItem" type="text" size="small">
+              <xn-col-button @click="addPlanData" type="text" size="small">
                 <i class="iconfont icon-add"></i>
               </xn-col-button>
             </template>
             <template slot-scope="scope">
               <xn-col-button
-                @click="delRulerItem(scope.$index, scope.row)"
+                @click="delPlanData(scope.$index, scope.row)"
                 type="text"
                 size="small"
               >
@@ -122,55 +122,70 @@
               </xn-col-button>
             </template>
           </el-table-column>
-          <el-table-column label="评级项" align="center">
-            <template slot-scope="scope">
-              <el-form-item
-                :prop="'rulerItems.' + scope.$index + '.rulerItem'"
-                :rules="[
-                  {
-                    required: true,
-                    trigger: ['blur', 'change'],
-                    message: '评级项不能为空'
-                  },
-                  {
-                    validator: validatorRulerItem,
-                    trigger: ['blur', 'change']
-                  }
-                ]"
-              >
-                <el-input
-                  v-model="scope.row.rulerItem"
-                  style="width: 98%"
-                  :maxlength="30"
-                ></el-input>
-              </el-form-item>
-            </template>
+          <el-table-column
+            prop="regionName"
+            label="区间名"
+            align="center"
+            width="100px"
+          >
           </el-table-column>
-          <el-table-column label="得分下限" align="center" width="220px">
+          <el-table-column label="下限" align="center">
             <template slot-scope="scope">
               <el-form-item
-                :prop="'rulerItems.' + scope.$index + '.scoreMin'"
+                :prop="'planDataList.' + scope.$index + '.minValue'"
                 :rules="[
                   {
                     required: true,
                     trigger: ['blur', 'change'],
-                    message: '得分下限不能为空'
+                    message: '下限值不能为空'
                   },
                   {
-                    validator: validatorScoreMin,
+                    validator: validatorMinVal,
                     trigger: ['blur', 'change']
                   }
                 ]"
               >
+                <xn-select v-model="scope.row.minFlag" style="width: 70px">
+                  <xn-option label=">=" value="1"></xn-option>
+                  <xn-option label=">" value="2"></xn-option>
+                </xn-select>
                 <el-input
-                  v-model="scope.row.scoreMin"
-                  style="width: 98%"
+                  v-model="scope.row.minValue"
+                  style="width: 80px"
                   :maxlength="6"
                 ></el-input>
               </el-form-item>
             </template>
           </el-table-column>
-        </el-table>
+          <el-table-column label="上限" align="center">
+            <template slot-scope="scope">
+              <el-form-item
+                :prop="'planDataList.' + scope.$index + '.maxValue'"
+                :rules="[
+                  {
+                    required: true,
+                    trigger: ['blur', 'change'],
+                    message: '上限值不能为空'
+                  },
+                  {
+                    validator: validatorMaxVal,
+                    trigger: ['blur', 'change']
+                  }
+                ]"
+              >
+                <xn-select v-model="scope.row.maxFlag" style="width: 70px">
+                  <xn-option label="<" value="3"></xn-option>
+                  <xn-option label="<=" value="4"></xn-option>
+                </xn-select>
+                <el-input
+                  v-model="scope.row.maxValue"
+                  style="width: 80px"
+                  :maxlength="6"
+                ></el-input>
+              </el-form-item>
+            </template>
+          </el-table-column>
+        </xn-table>
       </el-form-item>
     </el-form>
   </div>
@@ -193,24 +208,93 @@ export default {
         rulerPlans: [],
         rulerItems: [],
         remark: "",
-        releaseState: ""
+        releaseState: "",
+        planDataList:[]
       }
     };
   },
   methods: {
-    delRulerItem(index, row) {
-      this.editForm.rulerItems.splice(index, 1);
-      this.$refs.editFormRef.validateField("rulerItems");
+    validatorMinVal(rule, value, callback) {
+      let isFloat = true;
+      try {
+        let parseVal = parseFloat(value);
+        let checkVal = parseVal + "";
+        if (checkVal === value && 0 <= parseVal && 999.99 > parseVal) {
+        } else {
+          isFloat = false;
+        }
+      } catch (e) {
+        isFloat = false;
+      }
+      if (!isFloat) {
+        callback(new Error("下限值错误,请输入0-999.99之间浮点数"));
+      }
+      callback();
     },
-    addRulerItem() {
-      let len = this.editForm.rulerItems.length;
+    validatorMaxVal(rule, value, callback) {
+      let isFloat = true;
+      try {
+        let parseVal = parseFloat(value);
+        let checkVal = parseVal + "";
+        if (checkVal === value && 0 <= parseVal && 999.99 > parseVal) {
+        } else {
+          isFloat = false;
+        }
+      } catch (e) {
+        isFloat = false;
+      }
+      if (!isFloat) {
+        callback(new Error("上限值错误,请输入0-999.99之间浮点数"));
+      } else {
+        let index = rule["field"].split(".")[1];
+        let thisMinVal = this.editForm.planDataList[parseInt(index)][
+          "minValue"
+        ];
+        let checkThisMinVal = parseFloat(thisMinVal) + "";
+        let isCheck = true;
+        try {
+          if (
+            checkThisMinVal === thisMinVal &&
+            parseFloat(value) >= parseFloat(thisMinVal)
+          ) {
+          } else {
+            isCheck = false;
+          }
+        } catch (e) {
+          isCheck = false;
+        }
+        if (!isCheck) {
+          callback(new Error("上限值必须大于等于下限值"));
+        }
+      }
+      callback();
+    },
+    //表格
+    addPlanData() {
+      let len = this.editForm.planDataList.length;
+      let regionName = "区间" + (len + 1);
       let buidData = {
         guid: "",
-        rulerItem: "",
-        scoreMin: ""
+        regionName: regionName,
+        maxFlag: "3",
+        maxValue: "",
+        minFlag: "1",
+        minValue: ""
       };
-      this.editForm.rulerItems.push(buidData);
-      this.$refs.editFormRef.validateField("rulerItems");
+      this.editForm.planDataList.push(buidData);
+      this.$refs.editFormRef.validateField("planDataList");
+    },
+    delPlanData(index, row) {
+      this.editForm.planDataList.splice(index, 1);
+      let len = this.editForm.planDataList.length;
+      if (len > 0) {
+        let fIndex = 1;
+        for (let temp of this.editForm.planDataList) {
+          temp["regionName"] = "区间" + fIndex;
+          fIndex++;
+        }
+      }
+      this.$refs.editFormRef.validateField("planDataList");
     },
     rowClassName({ row, rowIndex }) {
       // row.xh = rowIndex + 1;
