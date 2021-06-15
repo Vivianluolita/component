@@ -4,7 +4,7 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :visible.sync="isVisible"
-    title="选择员工"
+    title="选择员工test"
     width="768px"
   >
     <div class="dialog-content">
@@ -169,7 +169,6 @@ export default {
             this.isVisible = false;
             this.isShowUser = true;
             this.$emit("change-user",this.isShowUser)
-            this.$emit("popdialog")
             this.setConfirmData(this.multipleSelection)
         },
         cancel () {
