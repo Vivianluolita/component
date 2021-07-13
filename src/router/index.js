@@ -8,7 +8,7 @@ import TesElemen from '@/components/TesElemen'
 import TestTable from '@/components/TestTable'
 import TestTable2 from '@/components/TestTable2'
 import TestTable3 from '@/components/TestTable3'
-import TestTable4 from '@/components/TestTable4'
+import TestTable4 from '@/components/my-dialog-animal/MyDialogAnimal'
 
 //模块化机制编程
 Vue.use(Router)

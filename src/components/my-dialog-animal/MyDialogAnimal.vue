@@ -1,28 +1,34 @@
 <template>
-  <div class="re-guide">
-    <div class="re-content">
-      <div class="re-cbtn" v-if="step=='one'">
-        <div class="btn-block" type="primary">
-          <span class="btn-edit"></span>
-          <span class="btn-word">发布新职位</span>
-        </div>
-      </div>
-      <div class="g-btn" v-else>
-        <div class="btn-tr">置顶</div>
-      </div>
-
-      <transition @after-enter="afterEnter" @before-enter="beforeEnter" @enter="enter" name="fade">
-        <div class="ta-show" v-if="show">
-          <div>
-            <!-- :class="[step === 'two' ? 'two-line' :'']" -->
-            <div class="job-line" id="line"></div>
-            <div class="j-tips" id="word">{{info}}</div>
-            <div class="ta-btn" id="btn">
-              <div @click="doGuideCode" class="btn-know">我知道了，马上体验</div>
-              <div @click="doNextFun" class="btn-next" v-if="step == 'one'">下一步</div>
-            </div>
+  <my-dialog :visible="firstFlag">
+    <div class="re-guide">
+      <div class="re-content">
+        <div class="re-cbtn" v-if="step=='one'">
+          <div class="btn-block" type="primary">
+            <span class="btn-edit"></span>
+            <span class="btn-word">发布新职位</span>
           </div>
-          <!-- <div>
+        </div>
+        <div class="g-btn" v-else>
+          <div class="btn-tr">置顶</div>
+        </div>
+
+        <transition
+          @after-enter="afterEnter"
+          @before-enter="beforeEnter"
+          @enter="enter"
+          name="fade"
+        >
+          <div class="ta-show" v-if="show">
+            <div>
+              <!-- :class="[step === 'two' ? 'two-line' :'']" -->
+              <div class="job-line" id="line"></div>
+              <div class="j-tips" id="word">{{info}}</div>
+              <div class="ta-btn" id="btn">
+                <div @click="doGuideCode" class="btn-know">我知道了，马上体验</div>
+                <div @click="doNextFun" class="btn-next" v-if="step == 'one'">下一步</div>
+              </div>
+            </div>
+            <!-- <div>
                         <div class="ta-btn">
                             <div class="btn-know" @click="doGuideCode">我知道了，马上体验</div>
                             <div class="btn-next" @click="doNextFun">下一步</div>
@@ -30,11 +36,12 @@
 
                         <div class="t-tips">2，使用职位置顶，并选择置顶天数，即可在同类职位之上被学生优先看到</div>
                         <div class="tip-line"></div>
-          </div>-->
-        </div>
-      </transition>
+            </div>-->
+          </div>
+        </transition>
+      </div>
     </div>
-  </div>
+  </my-dialog>
 </template>
 
 <script>
@@ -47,7 +54,8 @@
             return{
                 show:false,
                 step:'one',
-                info:'1，发布新职位，招聘更多优秀人才' //
+                info:'1，发布新职位，招聘更多优秀人才' ,//,
+                firstFlag:true
             }
         },
         created() {

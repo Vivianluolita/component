@@ -7,11 +7,11 @@
     </my-dialog>-->
     <!-- animaltion -->
     <!-- 2. 用my-dialog，MyDialogAnimal一起可以解决蒙版消失后，文本内容一起消失的问题。但是文本内容是放在my-dialog-animal里面的，动画也是放在my-dialog-animal里面的，外层的my-dialog只是控制阴影的消失。-->
-    <div class="pos-bg">
+    <!-- <div class="pos-bg">
       <my-dialog :visible="firstFlag">
         <my-dialog-animal @positionFun="positionFun"></my-dialog-animal>
       </my-dialog>
-    </div>
+    </div>-->
     <!-- 3.因为我的功能是 my-dialog-animal没用封装成组件，所以我就把my-dialog直接放在my-dialog-animal。vue的页面里面-->
   </div>
 </template>
