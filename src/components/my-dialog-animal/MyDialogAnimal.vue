@@ -39,7 +39,7 @@
 
 <script>
     // import { getGuideCode} from '@/network/request'
-    // import MyDialog from '../my-dialog/MyDialog.vue'
+    import MyDialog from '../my-dialog/MyDialog.vue'
     export default {
         name: "MyDialogAnimal",
         components: { MyDialog },
