@@ -14,6 +14,13 @@ import echarts from 'echarts';
 Vue.prototype.$echarts = echarts;
 Mock.mockData();
 Vue.use(ElementUI);
+// 1，创建一个文件夹my - dialog
+// 2，在my - dialog文件夹下创建MyDialog.vue和index.js
+// 3，index.js需要引入MyDiloag并封装和抛出
+// 4，在main.js中引入index.js
+// 引入自定义弹框组件
+import MyDialog from './components/my-dialog/index'
+Vue.use(MyDialog)
 
 Vue.config.productionTip = false;
 // 也可以在index.js routes里面配置路由独享的守卫

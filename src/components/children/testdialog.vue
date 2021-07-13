@@ -5,7 +5,7 @@
     :close-on-press-escape="false"
     :visible.sync="isVisible"
     title="选择员工test"
-    width="768px"
+    width="400px"
   >
     <div class="dialog-content">
       <div class="user-table">
