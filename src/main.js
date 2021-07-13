@@ -21,6 +21,8 @@ Vue.use(ElementUI);
 // 引入自定义弹框组件
 import MyDialog from './components/my-dialog/index'
 Vue.use(MyDialog)
+import MyDialogAnimal from './components/my-dialog-animal/index'
+Vue.use(MyDialogAnimal)
 
 Vue.config.productionTip = false;
 // 也可以在index.js routes里面配置路由独享的守卫
