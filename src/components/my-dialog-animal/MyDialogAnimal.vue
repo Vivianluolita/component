@@ -1,17 +1,27 @@
 <template>
   <my-dialog :visible="firstFlag">
-    <div class="re-guide">
-      <div class="re-content">
-        <div class="re-cbtn" v-if="step=='one'">
-          <div class="btn-block" type="primary">
-            <span class="btn-edit"></span>
-            <span class="btn-word">发布新职位</span>
-          </div>
+    <!-- <div class="re-guide"> -->
+    <div class="component" slot="cpu">
+      <tab :option="tabOption" @change="onTabChange">
+        <button @click="add" class="edit" slot="button">+ Add New Trend</button>
+      </tab>
+      <search :list="searchList" @search="search"></search>
+      <table :tableData="tableList"></table>
+    </div>
+    <div class="re-content" slot="yingpan">
+      <span class="btn-word" style="width:300px;height:100px;background:#fff;">发布新职位1</span>
+      <span class="btn-word">发布新职位2</span>
+      <!-- <div class="re-cbtn" v-if="step=='one'">
+        <div class="btn-block" type="primary">
+          <span class="btn-edit"></span>
+          <span class="btn-word">发布新职位</span>
+          <span class="btn-word">发布新职位</span>
         </div>
-        <div class="g-btn" v-else>
-          <div class="btn-tr">置顶</div>
-        </div>
-
+      </div>
+      <div class="g-btn">
+        <div class="btn-tr">置顶</div>
+      </div>-->
+      <!-- 
         <transition
           @after-enter="afterEnter"
           @before-enter="beforeEnter"
@@ -20,7 +30,6 @@
         >
           <div class="ta-show" v-if="show">
             <div>
-              <!-- :class="[step === 'two' ? 'two-line' :'']" -->
               <div class="job-line" id="line"></div>
               <div class="j-tips" id="word">{{info}}</div>
               <div class="ta-btn" id="btn">
@@ -28,34 +37,250 @@
                 <div @click="doNextFun" class="btn-next" v-if="step == 'one'">下一步</div>
               </div>
             </div>
-            <!-- <div>
-                        <div class="ta-btn">
-                            <div class="btn-know" @click="doGuideCode">我知道了，马上体验</div>
-                            <div class="btn-next" @click="doNextFun">下一步</div>
-                        </div>
-
-                        <div class="t-tips">2，使用职位置顶，并选择置顶天数，即可在同类职位之上被学生优先看到</div>
-                        <div class="tip-line"></div>
-            </div>-->
           </div>
-        </transition>
-      </div>
+      </transition>-->
     </div>
+    <div class="component" slot="default" style="position:margin-top:60px">
+      <tab :option="tabOption" @change="onTabChange">
+        <button @click="add" class="edit" slot="button">+ Add New Trend</button>
+      </tab>
+      <search :list="searchList" @search="search"></search>
+      <table :tableData="tableList"></table>
+    </div>
+    <div class="re-content" slot="yingpan" style="width:300px;height:100px;background:#fff;">发布新职位3</div>
+    <!-- </div> -->
   </my-dialog>
 </template>
 
 <script>
+import search from "../children/search";
+import tab from "../children/tab";
+import table from "../children/table";
     // import { getGuideCode} from '@/network/request'
     import MyDialog from '../my-dialog/MyDialog.vue'
     export default {
         name: "MyDialogAnimal",
-        components: { MyDialog },
+        components: { MyDialog,search,tab,table },
         data(){
             return{
                 show:false,
                 step:'one',
                 info:'1，发布新职位，招聘更多优秀人才' ,//,
-                firstFlag:true
+                firstFlag:true,
+                dialogAddPerson: false,
+      searchList: [
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Source1'
+            }, {
+              value: '2',
+              label: 'Source2'
+            }, {
+              value: '3',
+              label: 'Source3'
+            }, {
+              value: '4',
+              label: 'Source4'
+            }, {
+              value: '5',
+              label: 'Source5'
+            }
+          ],
+          value: '',
+          key: 'source',
+          placeholder: 'Source'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Sub-source1'
+            }, {
+              value: '2',
+              label: 'Sub-source2'
+            }, {
+              value: '3',
+              label: 'Sub-source3'
+            }, {
+              value: '4',
+              label: 'Sub-source4'
+            }, {
+              value: '5',
+              label: 'Sub-source5'
+            }
+          ],
+          value: '',
+          key: 'sub-source',
+          placeholder: 'Sub-source'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Segment1'
+            }, {
+              value: '2',
+              label: 'Segment2'
+            }, {
+              value: '3',
+              label: 'Segment3'
+            }, {
+              value: '4',
+              label: 'Segment4'
+            }, {
+              value: '5',
+              label: 'Segment5'
+            }
+          ],
+          value: '',
+          key: 'segment',
+          placeholder: 'Segment'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Target Demographic Care1'
+            }, {
+              value: '2',
+              label: 'Target Demographic Care2'
+            }, {
+              value: '3',
+              label: 'Target Demographic Care3'
+            }, {
+              value: '4',
+              label: 'Target Demographic Care4'
+            }, {
+              value: '5',
+              label: 'Target Demographic Care5'
+            }
+          ],
+          value: '',
+          key: 'target',
+          placeholder: 'Target Demographic Care'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Year1'
+            }, {
+              value: '2',
+              label: 'Year2'
+            }, {
+              value: '3',
+              label: 'Year3'
+            }, {
+              value: '4',
+              label: 'Year4'
+            }, {
+              value: '5',
+              label: 'Year5'
+            }
+          ],
+          value: '',
+          key: 'year',
+          placeholder: 'Year'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Key Words1'
+            }, {
+              value: '2',
+              label: 'Key Words2'
+            }, {
+              value: '3',
+              label: 'Key Words3'
+            }, {
+              value: '4',
+              label: 'Key Words4'
+            }, {
+              value: '5',
+              label: 'Key Words5'
+            }
+          ],
+          value: '',
+          key: 'words',
+          placeholder: 'Key Words'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Focus Product1'
+            }, {
+              value: '2',
+              label: 'Focus Product2'
+            }, {
+              value: '3',
+              label: 'Focus Product3'
+            }, {
+              value: '4',
+              label: 'Focus Product4'
+            }, {
+              value: '5',
+              label: 'Focus Product5'
+            }
+          ],
+          value: '',
+          key: 'product',
+          placeholder: 'Focus Product'
+        },
+        {
+          options: [
+            {
+              value: '1',
+              label: 'Submitted by1'
+            }, {
+              value: '2',
+              label: 'Submitted by2'
+            }, {
+              value: '3',
+              label: 'Submitted by3'
+            }, {
+              value: '4',
+              label: 'Submitted by4'
+            }, {
+              value: '5',
+              label: 'Submitted by5'
+            }
+          ],
+          value: '',
+          key: 'submit',
+          placeholder: 'Submitted by'
+        }
+      ],
+      tabOption: {
+        activeName: '1',
+        list: [
+          {
+            label: 'Approved',
+            value: '1'
+          },
+          {
+            label: 'Pending Approval',
+            value: '2',
+            badge: '100+'
+          },
+          {
+            label: 'Denied',
+            value: '3',
+            badge: '10'
+          },
+          {
+            label: 'Draft',
+            value: '4'
+          }
+
+        ]
+
+      },
+      tableList: []
+    
             }
         },
         created() {
@@ -125,7 +350,7 @@
     margin: 0 auto;
 
     .re-cbtn {
-      position: absolute;
+      // position: absolute;
       left: 915px;
       top: 172px;
       width: 170px;
@@ -163,6 +388,12 @@
 
         .btn-word {
           display: inline-block;
+          width: 140px;
+          height: 40px;
+          background: #ffffff;
+          border-radius: 4px;
+          align-items: center;
+          color: #333;
         }
       }
     }
