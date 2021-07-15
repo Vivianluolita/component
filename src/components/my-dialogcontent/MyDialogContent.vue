@@ -2,7 +2,7 @@
   <transition @after-enter="afterEnter" @after-leave="afterLeave" name="dialog-fade">
     <div>
       <!-- md-wapper为外层阴影，visibles控制整体阴影消失 -->
-      <div @click="handleOut()" class="md-wapper" v-show="visibles"></div>
+      <!-- <div @click="handleOut()" class="md-wapper" v-show="visibles"></div> -->
       <!-- handleOut 为点击任意位置阴影消失 -->
       <!-- md-wapper md-content合起来为整个阴影部分-->
       <div @click="handleOut()" class="md-content">
@@ -14,7 +14,7 @@
 
 <script>
     export default {
-        name: "MyDialog",
+        name: "MyDialogContent",
         data(){
             return{
               visibles:true
@@ -62,16 +62,12 @@
         background: #000;
     }
     .md-content{
-        /* z-index: 11; */
+        z-index: 11;
         position: fixed;
         /* left: 0;
         top: 0; */
         width: 100%;
         height: 100%;
-        opacity: .8;
-        background: #000;
-        left: 0;
-        top: 0;
     }
 </style>
 

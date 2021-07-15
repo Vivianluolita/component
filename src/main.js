@@ -23,6 +23,8 @@ import MyDialog from './components/my-dialog/index'
 Vue.use(MyDialog)
 import MyDialogAnimal from './components/my-dialog-animal/index'
 Vue.use(MyDialogAnimal)
+import MyDialogContent from './components/my-dialogcontent/index'
+Vue.use(MyDialogContent)
 
 Vue.config.productionTip = false;
 // 也可以在index.js routes里面配置路由独享的守卫

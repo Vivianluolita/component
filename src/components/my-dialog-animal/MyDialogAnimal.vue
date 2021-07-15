@@ -1,61 +1,62 @@
 <template>
-  <my-dialog :visible="firstFlag">
-    <div class="re-guide">
-      <div class="re-content">
-        <div class="re-cbtn" v-if="step=='one'">
-          <div class="btn-block" type="primary">
-            <span class="btn-edit"></span>
-            <span class="btn-word">发布新职位</span>
-          </div>
+  <!-- <my-dialog :visible="firstFlag" clss="myDialogWrap"> -->
+  <div class="re-guide">
+    <!-- 将阴影层直接放在这里 -->
+    <div @click="handleOut()" class="md-wapper" v-show="visibles"></div>
+    <div class="re-content">
+      <div class="re-cbtn" v-if="step=='one'">
+        <div class="btn-block" type="primary">
+          <span class="btn-edit"></span>
+          <!-- 通过插槽控制其他部分 -->
+          <my-dialog-content :visible="firstFlag">
+            <span style="width:300px;height:100px;line-height:100px;background:#fff;color:red">发布新职位</span>
+          </my-dialog-content>
+          <span
+            style="width:300px;height:100px;line-height:100px;background:#fff;color:red"
+          >发布新职位222</span>
         </div>
-        <div class="g-btn" v-else>
-          <div class="btn-tr">置顶</div>
-        </div>
-
-        <transition
-          @after-enter="afterEnter"
-          @before-enter="beforeEnter"
-          @enter="enter"
-          name="fade"
-        >
-          <div class="ta-show" v-if="show">
-            <div>
-              <!-- :class="[step === 'two' ? 'two-line' :'']" -->
-              <div class="job-line" id="line"></div>
-              <div class="j-tips" id="word">{{info}}</div>
-              <div class="ta-btn" id="btn">
-                <div @click="doGuideCode" class="btn-know">我知道了，马上体验</div>
-                <div @click="doNextFun" class="btn-next" v-if="step == 'one'">下一步</div>
-              </div>
-            </div>
-            <!-- <div>
-                        <div class="ta-btn">
-                            <div class="btn-know" @click="doGuideCode">我知道了，马上体验</div>
-                            <div class="btn-next" @click="doNextFun">下一步</div>
-                        </div>
-
-                        <div class="t-tips">2，使用职位置顶，并选择置顶天数，即可在同类职位之上被学生优先看到</div>
-                        <div class="tip-line"></div>
-            </div>-->
-          </div>
-        </transition>
       </div>
+      <!-- <div class="g-btn" v-else> -->
+      <my-dialog-content :visible="firstFlag">
+        <div
+          class="btn-tr"
+          style="width:300px;height:100px;background:#fff;position:relative;top:90px"
+        >置顶</div>
+      </my-dialog-content>
+      <div class="btn-tr" style="margin-top:60px;width:300px;height:100px;background:#fff">置顶</div>
+      <!-- </div> -->
+
+      <!-- <transition @after-enter="afterEnter" @before-enter="beforeEnter" @enter="enter" name="fade">
+        <div class="ta-show" v-if="show">
+          <div>
+            <div class="job-line" id="line"></div>
+            <div class="j-tips" id="word">{{info}}</div>
+            <div class="ta-btn" id="btn">
+              <div @click="doGuideCode" class="btn-know">我知道了，马上体验</div>
+              <div @click="doNextFun" class="btn-next" v-if="step == 'one'">下一步</div>
+            </div>
+          </div>
+        </div>
+      </transition>-->
     </div>
-  </my-dialog>
+  </div>
+  <!-- </my-dialog> -->
 </template>
 
 <script>
     // import { getGuideCode} from '@/network/request'
     import MyDialog from '../my-dialog/MyDialog.vue'
+    import MyDialogContent from '../my-dialogcontent/MyDialogContent.vue'
     export default {
         name: "MyDialogAnimal",
-        components: { MyDialog },
+        components: { MyDialog,MyDialogContent },
         data(){
             return{
                 show:false,
                 step:'one',
                 info:'1，发布新职位，招聘更多优秀人才' ,//,
-                firstFlag:true
+                firstFlag:true,
+                visibles:true
             }
         },
         created() {
@@ -65,6 +66,9 @@
 
         },
         methods:{
+          handleOut(){
+            this.visibles = false
+          },
             beforeEnter(el){
                 el.style.transform = "translate(-400px, 238px)"
             },
@@ -114,6 +118,17 @@
 </script>
 
 <style scoped lang="stylus">
+.md-wapper {
+  z-index: 10;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  background: #000;
+}
+
 .re-guide {
   height: 100%;
   position: relative;
@@ -126,18 +141,18 @@
 
     .re-cbtn {
       position: absolute;
-      left: 915px;
-      top: 172px;
-      width: 170px;
-      height: 60px;
-      background-color: #ffffff;
-      justify-content: center;
-      align-items: center;
-      border-radius: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
+      // left: 915px;
+      // top: 172px;
+      // width: 170px;
+      // height: 60px;
+      // background-color: #ffffff;
+      // justify-content: center;
+      // align-items: center;
+      // border-radius: 2px;
+      // display: flex;
+      // align-items: center;
+      // justify-content: center;
       .btn-block {
         display: flex;
         width: 140px;
