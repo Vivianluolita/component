@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import search from "../children/search";
+import tab from "../children/tab";
+import table from "../children/table";
     // import { getGuideCode} from '@/network/request'
     import MyDialog from '../my-dialog/MyDialog.vue'
     import MyDialogContent from '../my-dialogcontent/MyDialogContent.vue'
@@ -178,6 +181,12 @@
 
         .btn-word {
           display: inline-block;
+          width: 140px;
+          height: 40px;
+          background: #ffffff;
+          border-radius: 4px;
+          align-items: center;
+          color: #333;
         }
       }
     }

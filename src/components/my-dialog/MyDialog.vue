@@ -6,7 +6,11 @@
       <!-- handleOut 为点击任意位置阴影消失 -->
       <!-- md-wapper md-content合起来为整个阴影部分-->
       <div @click="handleOut()" class="md-content">
-        <slot></slot>
+        <slot name="cpu"></slot>
+        <slot name="yingpan"></slot>
+        <!-- 如果只定义了两个具名插槽，剩下的没定义可以统统将剩下的起名为default -->
+        <!-- 如果做引导页可以试试用具名插槽定位。 -->
+        <slot name="default"></slot>
       </div>
     </div>
   </transition>
