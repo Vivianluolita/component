@@ -51,16 +51,7 @@
 </script>
 
 <style scoped >
-    .md-wapper{
-        z-index: 10;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        opacity: .5;
-        background: #000;
-    }
+    
     .md-content{
         /* z-index: 11; */
         position: fixed;
