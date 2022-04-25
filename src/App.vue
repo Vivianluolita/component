@@ -38,6 +38,7 @@ export default {
         { name: '/components/TestTable2', navItem: '测试表格' },
         // { name: '/components/TestTable3', navItem: '测试表格3' },
         { name: '/components/TestTable4', navItem: '测试表格4' },
+        { name: '/components/TestTable6', navItem: '测试表格6' },
         // { name: '/my-dialog-animal/MyDialogAnimal', navItem: '测试表格4' },
         // {name:'/components/User',navItem:'用户管理'},
         // {name:'/components/Personnel',navItem:'人员数据'},
