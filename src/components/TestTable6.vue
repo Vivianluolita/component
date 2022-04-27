@@ -1,94 +1,211 @@
 <template>
 
- <div>
-   <el-form :model="form" :rules="tableRules" ref="tableForm">
-     <el-table :data="form.tableData" width="100%" stripe>
-     <el-table-column type="index" label="序号" width="50"/>
-        <el-table-column prop="name" label="名称">
+ <div id="app">
+    <h3>vue+ElementUI 表单嵌套表格逐行校验（新增、编辑）的完美解决方案</h3>
+    <p>--大话主席</p>
+    <el-form :model="form" :rules="rules" ref="form">
+      <el-table @row-dblclick="handdleRow" @row-click="saveTableData"  :row-class-name="tableRowClassName" :data="form.datas" highlight-current-row style="width: 100%">
+        <el-table-column prop="id" label="序号" width="60"></el-table-column>
+
+        <el-table-column prop="name" label="姓名">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index +'.name'" :rules='tableRules.name'>
-              <el-input v-model="scope.row.name"/>
-            </el-form-item>
-            <span>{{scope.row.name}}</span>
+            <!-- <template v-if="scope.row.action == 'view'">
+              {{scope.row.name}}
+            </template> -->
+            <template >
+              <el-form-item :prop="'datas.'+scope.$index + '.name'" :rules='rules.name'>
+                <el-input v-show="scope.row.index == currentRowIndex" size="mini" v-model.trim="scope.row.name" style="width: 120px;"></el-input>
+                <span v-show="scope.row.index != currentRowIndex">{{scope.row.name}}</span>
+              </el-form-item>
+            </template>
           </template>
         </el-table-column>
-        <el-table-column prop="type" label="类型">
+        
+        <el-table-column prop="name" label="年龄">
           <template slot-scope="scope">
-            <el-form-item :prop="'tableData.' + scope.$index +'.type'" :rules='tableRules.type'>
-              <el-select v-model="scope.row.type" placeholder="请选择" clearable>
-                <el-option v-for="item in typeOption" :key="item.value" :label="item.label" :value="item.value"/>
-              </el-select>
-            </el-form-item>
-            <span>{{scope.row.name}}</span>
+            <!-- <template v-if="scope.row.action == 'view'">
+              {{scope.row.age}}
+            </template> -->
+            <template>
+              <el-form-item :prop="'datas.'+scope.$index + '.age'" :rules='rules.age'>
+                <el-input  v-show="scope.row.index == currentRowIndex"  size="mini" v-model.number="scope.row.age" style="width: 60px;"></el-input>
+                <span v-show="scope.row.index != currentRowIndex">{{scope.row.age}}</span>
+              </el-form-item>
+            </template>
           </template>
         </el-table-column>
-        <el-table-column prop="operation" label="操作" width="60px">
+
+        <el-table-column prop="operation" label="操作">
           <template slot-scope="scope">
-            <div @click.stop="remove(scope.$index)">删除</div>
+            <template v-if="scope.row.action == 'view'">
+              <el-button size="mini" @click="click_edit(scope.row, scope.$index)">编辑</el-button>
+              <el-button size="mini" @click="click_delete(scope.row, scope.$index)">删除</el-button>
+            </template>
+            <template v-else-if="scope.row.action == 'add'">
+              <el-button size="mini" @click="click_add( scope.row, scope.$index)">新增</el-button>
+              <el-button size="mini" @click="click_reset(scope.row, scope.$index)">重置</el-button>
+            </template>
+            <!-- <template v-else>
+              <el-button size="mini" @click="click_save(scope.row, scope.$index)">保存</el-button>
+              <el-button size="mini" @click="click_cancle(scope.row, scope.$index)">取消</el-button>
+            </template> -->
           </template>
         </el-table-column>
       </el-table>
     </el-form>
-    <div style="text-align: center;margin-top: 30px">
-      <el-button @click="cancel">取消</el-button>
-      <el-button type="primary" @click.stop="submit()">提交</el-button>
-    </div>
-</div>
+  </div>
 </template>
 
 
 <script>
 export default {
+  created() {
+    //处理数据，为已有数据添加action:'view'
+    this.form.datas.map(item => {
+      this.$set(item,"action","view")
+      return item;
+    });
+    //再插入一条添加操作的数据
+    this.form.datas.unshift({
+      id:undefined,
+      name:undefined,
+      age:undefined,
+      action: "add"
+    });
+  },
   data() {
     return {
-       form:{
-        tableData:[{name:'lii',typeOption:[{label:'shuxue',value:'yuyu'}]}],
-      },
-      typeOption:[{
-        value: "0",
-        label: "可爱"
-      },{
-        value: "1",
-        label: "美好"
-      }],
-      tableRules:{
-        name: [{required: true, message: '请输入名称'}],
-        type: [{required: true, message: '请选择类型'}],
-      },
-      tableForm:{
-        name:'',
-        type:'',
-      },
+       form: {
+          datas: [
+            { id: 1, name: "张三", age:20 },
+            { id: 2, name: "李四", age:32 },
+          ],
+        },
+        currentRowIndex:null,
+        
+        //表单验证规则
+        rules: {
+          name: [{
+            type: 'string',
+            required: true,
+            trigger: 'blur',
+            message: '请输入姓名',
+          }],
+          age: [{
+            type: 'number',
+            required: true,
+            trigger: 'blur',
+            message: '请输入年龄',
+          },
+          {
+            type: 'number',
+            trigger: 'blur',
+            min: 0,
+            max: 120,
+            message: '年龄最小0，最大120',
+          }],
+        }
     };
   },
   methods:{
-    add() {
-      this.form.tableData.push({
-        id:null,
-        name:'',
-        type:''
-      })
+    /**
+     * 保存数据
+     */
+    saveTableData(row) {
+    // 如果点击行为编辑行则不保存
+      if (row.index == this.currentRowIndex) return false;
+      // saveData
     },
-    submit() {
-      this.$refs['tableForm'].validate((valid)=>{
-        if (valid) {
-          this.save()
-        } else {
-          this.$message({
-            message: "请正确填写所有必填信息。",
-            type: 'error',
-          });
-          return
+    /**
+   * 设置当前列被选中，将本行数据临时存储
+   * @params{ row } row为每一行数据
+   */
+    handdleRow(row) {
+      this.currentRowIndex = row.index;
+      this.currentRow = row;
+    },
+    /**
+   * 将每一行的索引放到row中
+   * @params{ row } 每一行数据
+   * @params{ rowIndx } 每一行的索引
+   */
+    tableRowClassName({ row, rowIndex }) {
+      console.log("rowIndex",rowIndex)
+      console.log("row.index",row.index)
+      row.index = rowIndex;
+    },
+    //对部分表单字段进行校验
+      validateField(form,index){
+        let result = true;
+        for (let item of this.$refs[form].fields) {
+          if(item.prop.split(".")[1] == index){
+            this.$refs[form].validateField(item.prop,(error)=>{
+              if(error!=""){
+                result = false;
+              }
+            });
+          }
+          if(!result) break;
         }
-      })
-  },
-    save() {},
-    remove(index) {
-      this.form.tableData.splice(index,1)
-    },
-    cancel() {
-      this.$router.go(-1);
-    },
+        return result;
+      },
+      
+      //对部分表单字段进行重置
+      resetField(form,index){
+        this.$refs[form].fields.forEach(item=>{
+          if(item.prop.split(".")[1] == index){
+            item.resetField();
+          }
+        })
+      },
+      
+      //新增操作
+      click_add(item,index) {
+        if( !this.validateField('form',index) ) return;
+        //模拟新增一条数据
+        let itemClone = JSON.parse(JSON.stringify(item));
+        itemClone.id = this.form.datas.length;
+        itemClone.action = "view";
+        this.form.datas.push(itemClone);
+        this.resetField('form',index);
+      },
+      
+      //新增-重置操作
+      click_reset(item,index) {
+        this.resetField('form',index);
+      },
+      
+      //编辑-保存操作
+      click_save(item,index) {
+        if( !this.validateField('form',index) ) return;
+        item.action = "view";
+      },
+      
+      //编辑-取消操作
+      click_cancle(item,index) {
+        this.resetField('form',index);
+        item.action = "view";
+      },
+      
+      //编辑操作
+      click_edit(item,index) {
+        item.action = "edit";
+        this.currentRowIndex = item.index;
+      },
+      //删除操作
+      click_delete(item,index) {
+        this.$confirm("确定删除该条数据(ID" + item.id + ")吗?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning"
+          })
+          .then(() => {
+            //模拟删除一条数据
+            this.form.datas.splice(index,1);
+          })
+          .catch(() => {});
+      },
+    
 
   }
 }
