@@ -9,7 +9,8 @@ import TestTable from '@/components/TestTable'
 import TestTable2 from '@/components/TestTable2'
 import TestTable3 from '@/components/TestTable3'
 import TestTable6 from '@/components/TestTable6'
-import TestTable7 from '@/components/TestTable7'
+// import TestTable7 from '@/components/TestTable7'
+import TestTable9 from '@/components/TestTable9'
 import TestTable4 from '@/components/my-dialog-animal/MyDialogAnimal'
 
 //模块化机制编程
@@ -66,10 +67,15 @@ export default new Router({
       name: 'TestTable6',
       component: TestTable6
     },
+    // {
+    //   path: '/components/TestTable7',
+    //   name: 'TestTable7',
+    //   component: TestTable7
+    // },
     {
-      path: '/components/TestTable7',
-      name: 'TestTable7',
-      component: TestTable7
+      path: '/components/TestTable9',
+      name: 'TestTable9',
+      component: TestTable9
     },
   ]
 })

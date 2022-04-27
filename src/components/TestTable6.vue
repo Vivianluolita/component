@@ -1,5 +1,5 @@
 <template>
-
+<!-- demo 可编辑表格带校验带新增 -->
  <div id="app">
     <h3>vue+ElementUI 表单嵌套表格逐行校验（新增、编辑）的完美解决方案</h3>
     <p>--大话主席</p>
@@ -209,6 +209,26 @@ export default {
 
   }
 }
+
+// 多表单校验注意不同的名字
+// let formList = [];
+
+// for (let i = 1; i <= 4; i++) {
+//     let validItem = new Promise((resolve, reject) => {
+//       this.$refs["ruleForm" + i].validate(valid => {
+//         if (valid) {
+//           resolve();
+//         }
+//       });
+// });
+
+// formList.push(validItem);
+// }
+
+// Promise.all(formList).then(function() {
+//     console.log("表单验证成功");
+// });
+
 </script>
 
 <style>
