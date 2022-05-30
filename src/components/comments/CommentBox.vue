@@ -1,24 +1,11 @@
 <template>
-  <form action="" class="grid" @submit.prevent="handleSubmit()">
-    <textarea
-      v-model="content"
-      name="comment"
-      id=""
-      placeholder="请输入你的评论"
-      class="bg-gray-50 p-2 rounded"
-    ></textarea>
-    <fieldset class="py-4">
-      <input
-        type="submit"
-        value="评论"
-        class="px-4 py-1 bg-blue-600 rounded text-white"
-      />
-      <input
-        type="reset"
-        value="取消"
-        class="px-4 py-1 bg-white rounded border ml-3"
-      />
-    </fieldset>
+  <form @submit.prevent="handleSubmit()" action class="grid">
+    <textarea class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="content"></textarea>
+    <!-- <fieldset class="py-4"> -->
+    <input class="px-4 py-1 bg-blue-600 rounded text-white" type="submit" value="save" />
+    <input class="px-4 py-1 bg-white rounded border ml-3" type="reset" value="cancel" />
+    <input class="px-4 py-1 bg-white rounded border ml-3" type="reset" value="delete" />
+    <!-- </fieldset> -->
   </form>
 </template>
 
@@ -27,14 +14,14 @@
 export default {
   data() {
     return {
-      content:'222',
+      content:'',
     };
   },
 
   methods:{
   
     handleSubmit(){
-      this.$emit('submit')
+      this.$emit('submit',this.content)
       this.content = ''
     },
 
@@ -43,4 +30,13 @@ export default {
 </script>
 
 <style>
+.areaStyle{
+  width: 100%;
+}
+/* .bg-gray-50{
+  background-color: rgb(107 114 128);
+}
+.p-2{
+  padding: 2px;
+} */
 </style>
