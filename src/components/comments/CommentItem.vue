@@ -25,6 +25,8 @@
   <p class="text-gray-600 py-4">
     {{ content }}
   </p>   
+  <!-- 只有评论进行回复，回复不进行回复 -->
+  <ReplyBox v-if=""  @submit="addNewComment($event, comment.id)" />
 </div>
 
 
@@ -32,11 +34,15 @@
 
 
 <script>
+import ReplyBox from "./ReplyBox.vue";
 export default {
   data() {
     return {
     
     };
+  },
+  components:{
+    ReplyBox
   },
   props:{
     avatar: {
