@@ -4,15 +4,17 @@
    <button
     class="pt-4 text-blue-600"
     :class="[showCommentBox ? 'pb-2' : 'pb-10']"
-    @click="showCommentBox = !showCommentBox"
+    @click="clickReply()"
+    v-if="!showCommentBox"
   >
     回复
   </button>
-  <CommentBox
+  <ReplyArea
+    ref="editComment"
     v-if="showCommentBox"
     class="mb-4"
-    @submit="handSubmit"
-  />
+    @submit="handSubmit"/>
+   
 </div>
 
 
@@ -20,17 +22,26 @@
 
 
 <script>
-import CommentBox from "./CommentBox.vue";
+import ReplyArea from "./ReplyArea.vue";
 export default {
   data() {
     return {
      showCommentBox:false,
+     commentStatus:null
     };
+  },
+  components:{
+    ReplyArea
   },
   methods:{
     handSubmit(){
       this.emit('submit', $event);
       this.showCommentBox = false;
+    },
+    clickReply(){
+      // this.$refs.editComment.editDress = true
+      this.showCommentBox = !this.showCommentBox
+      // this.commentStatus = 3
     }
   }
 }

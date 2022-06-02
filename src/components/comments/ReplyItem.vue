@@ -26,7 +26,7 @@
     {{ content }}
   </p>   
   <!-- 只有评论进行回复，回复不进行回复 -->
-  <ReplyBox  @submit="addNewComment($event, comment.id)" />
+  <!-- <ReplyBox  @submit="addNewComment($event, comment.id)" /> -->
 </div>
 
 

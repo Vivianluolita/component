@@ -7,7 +7,7 @@
     </div>
     <!-- 留言 -->
     <!-- 状态值： 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编辑 -->
-    <div v-if="comment">
+    <div v-if="comment && commentStatus === 3">
       <div  :key="index" v-for="(item,index) in comment">
         <div>
           <CommentItem
@@ -23,18 +23,19 @@
         <!-- 留言列表 -->
         <ReplyContainer v-if="item.replies">
           <ReplyItem
-            v-for="reply in item.replies"
-            :id="reply.id"
-            :avatar="reply.avatar"
-            :content="reply.content"
-            :key="reply.id"
-            :time="reply.time"
-            :user="reply.user"
+       
+            :id="item.replies.id"
+            :avatar="item.replies.avatar"
+            :content="item.replies.content"
+            :key="item.replies.id"
+            :time="item.replies.time"
+            :user="item.replies.user"
           />
         </ReplyContainer>
       </div>  
     </div>
-    <div v-if="comment">
+    <!--  -->
+    <!-- <div v-if="comment">
       <div  :key="index" v-for="(item,index) in comment">
         <div>
           <CommentItem
@@ -47,7 +48,6 @@
           />
         </div>
 
-        <!-- 留言列表 -->
         <ReplyContainer v-if="item.replies">
           <ReplyItem
             v-for="reply in item.replies"
@@ -61,7 +61,7 @@
         </ReplyContainer>
       </div>  
     </div>
-    <!-- <ReplyBox @submit="addNewComment($event, comment.id)" /> -->
+    <ReplyBox @submit="addNewComment($event, comment.id)" /> -->
   </div>
 </template>
 
@@ -75,7 +75,7 @@ import ReplyContainer from "./comments/ReplyContainer.vue";
 export default {
   data() {
     return {
-      commentStatus:2,// 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编
+      commentStatus:3,// 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编
       comment: [
         {
           id: 1,
@@ -84,7 +84,7 @@ export default {
           time: "2022.5.30",
           content: "评论1",
           type: "comment",
-          replies: [
+          replies: 
             {
               id: 1,
               user: "liyujia02-replay",
@@ -92,17 +92,9 @@ export default {
               time: "2022-5.31",
               content: "评论1的回复1",
               type: "reply"
-            },
-            {
-              id: 2,
-              user: "liyujia02",
-              avatar: "",
-              time: "2022-6.1",
-              content: "评论1的回复2",
-              type: "reply"
             }
      
-          ]
+          
         },
         {
           id: 1,
@@ -111,7 +103,7 @@ export default {
           time: "2022.5.30",
           content: "评论2",
           type: "comment",
-          replies: [
+          replies: 
             {
               id: 1,
               user: "liyujia02-replay",
@@ -120,22 +112,9 @@ export default {
               content: "评论2的回复1",
               type: "reply"
             },
-            {
-              id: 2,
-              user: "liyujia02",
-              avatar: "",
-              time: "2022-6.1",
-              content: "评论2的回复2",
-              type: "reply"
-            }
-            // {
-            //   id: 3,
-            //   user: "liyujia02",
-            //   avatar: "",
-            //   time: "2022-6.2",
-            //   content: "222222222"
-            // },
-          ]
+ 
+        
+          
         }
       ]
     };
