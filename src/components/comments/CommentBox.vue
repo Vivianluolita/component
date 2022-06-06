@@ -22,7 +22,8 @@
       <el-form  v-else @click.prevent="handleSubmit()">
         <!-- isCloseOne 聚焦的时候要掉接口 -->
         <!-- @blur="dressInputBlur" -->
-        <textarea  @focus="isCloseOne = false" :maxlength="100"  ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea>
+        <!-- <textarea :value="targetValue" @input="changeValue"  @focus="isCloseOne = false" :maxlength="100"  ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea> -->
+        <textarea @focus="isCloseOne = false" :maxlength="100"  ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea>
       </el-form>        
 
     </div>
@@ -43,6 +44,7 @@
 export default {
   data() {
     return {
+      targetValue:'',
       content:'',
       comStatus:null,
       editDress:true,
@@ -75,9 +77,17 @@ export default {
         type: Number,
         default: null
     },
+    CommentData: {
+        type: Array,
+        default: null
+    },
   
   },
   methods:{
+    changeValue(e){
+      this.targetValue = e.target.value;
+      this.$emit('input', this.targetValue);
+    },
     btnSave(){
       this.editDress = true
     },
