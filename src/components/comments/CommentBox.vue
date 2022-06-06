@@ -1,16 +1,14 @@
 <template>
 <div>
-  <div v-if="commentStatus === 1">
+  <!-- <div v-if="commentStatus === 1">
     <el-form @click.prevent="handleSubmit()">
       <textarea class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="content"></textarea>
-      <!-- <fieldset class="py-4"> -->
       <input class="px-4" type="submit" value="save" />
       <input class="px-4" type="reset" value="cancel" />
       <input class="px-4" type="reset" value="delete" />
-      <!-- </fieldset> -->
     </el-form>
-  </div>
-  <div v-if="commentStatus === 2">
+  </div> -->
+  <div v-if="commentStatus === 1">
     <div class="img-class">
       <span v-if="editDress"
             :style="userInfo.address ? '' : 'color:#999;'">{{ userInfo.address ? userInfo.address : '' }}</span>
@@ -23,15 +21,18 @@
                 ref="addressRef"></el-input> -->
       <el-form  v-else @click.prevent="handleSubmit()">
         <!-- isCloseOne 聚焦的时候要掉接口 -->
-        <textarea  @focus="isCloseOne = false" :maxlength="100" @blur="dressInputBlur" ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea>
+        <!-- @blur="dressInputBlur" -->
+        <textarea  @focus="isCloseOne = false" :maxlength="100"  ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea>
       </el-form>        
 
     </div>
-    <div style="cursor: pointer;">
-      <i 
-          class="el-icon-edit"
-          @click="dressInputClick"
-          style="color: #899ff0;"></i>
+    <div v-if="editDress">
+      <el-button  @click="dressInputClick" >modify</el-button>
+    </div>
+    <div v-if="!editDress">
+      <el-button  @click="btnSave()" >save</el-button>
+      <el-button  @click="btnCancel()" >cancel</el-button>
+      <el-button  @click="btnDelete()" >delete</el-button>
     </div>
   </div>
 </div>
@@ -57,10 +58,10 @@ export default {
         console.log("newData", newData);
         console.log("oldData", oldData);
         // this.computedYear(newData);
-        this.comStatus = commentStatus
+        this.comStatus = this.commentStatus
         console.log("this.comStatus",this.comStatus)
         this.$nextTick(()=>{
-          this.comStatus = commentStatus
+          this.comStatus = this.commentStatus
         })
       },
       deep: true,
@@ -77,7 +78,19 @@ export default {
   
   },
   methods:{
-  
+    btnSave(){
+      this.editDress = true
+    },
+    btnCancel(){
+      console.log("222222")
+      this.userInfo.address = ''
+      // this.editDress = false
+    },
+    btnDelete(){
+      this.userInfo.address = ''
+      this.editDress = false
+      this.$emit('handleDelete')
+    },
     handleSubmit(){
       this.$emit('submit',this.content)
       this.content = ''

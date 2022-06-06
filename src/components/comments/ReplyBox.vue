@@ -13,6 +13,7 @@
     ref="editComment"
     v-if="showCommentBox"
     class="mb-4"
+    @handleReplyDel='handleReplyDel'
     @submit="handSubmit"/>
    
 </div>
@@ -34,6 +35,12 @@ export default {
     ReplyArea
   },
   methods:{
+
+    handleReplyDel(){
+      console.log("handleReplyDel1")
+      this.showCommentBox = false
+     
+    },
     handSubmit(){
       this.emit('submit', $event);
       this.showCommentBox = false;

@@ -1,13 +1,13 @@
 <template>
   <div>
-    <!--状态值： 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。  -->
-    <div>
+    <!--状态值： 1. 只有评论框areaText： save cancel delete -->
+    <div v-if="deleteCom">
       <!-- 主输入评论框 -->
-      <CommentBox :commentStatus='commentStatus' @submit="addNewComment" />
+      <CommentBox :commentStatus='commentStatus' @submit="addNewComment" @handleDelete="handleDelete"/>
     </div>
     <!-- 留言 -->
-    <!-- 状态值： 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编辑 -->
-    <div v-if="comment && commentStatus === 3">
+    <!-- 状态值： 2. 有文本可以回复 -->
+    <div v-if="comment && commentStatus === 2">
       <div  :key="index" v-for="(item,index) in comment">
         <div>
           <CommentItem
@@ -75,7 +75,9 @@ import ReplyContainer from "./comments/ReplyContainer.vue";
 export default {
   data() {
     return {
-      commentStatus:3,// 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编
+      // 控制状态2：删除评论框
+      deleteCom:true,
+      commentStatus:2,// 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编
       comment: [
         {
           id: 1,
@@ -127,6 +129,9 @@ export default {
     ReplyItem
   },
   methods: {
+    handleDelete(){
+      this.deleteCom = false
+    },
     addNewComment(content, replyTo) {
       // $event, comment.id
       // 此处要掉接口，后台会返回新的回复

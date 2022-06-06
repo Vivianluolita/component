@@ -21,7 +21,7 @@
     <div style="cursor: pointer;">
     <div>
 
-      <el-button @click="dressInputBlur()">save</el-button>
+      <el-button @click="saveComment()">save</el-button>
       <el-button @click="cancelComment()">cancel</el-button>
       <el-button @click="deleteComment()">delete</el-button>
     </div>
@@ -71,10 +71,17 @@ export default {
   },
   methods:{
     cancelComment(){
-      if(!editDress){
+      this.userInfo.address = ''
+      // if(!editDress){
 
-        this.userInfo.address = ''
-      }
+      // }
+    },
+    saveComment(){
+      this.editDress = true
+    },
+    deleteComment(){
+      this.userInfo.address = ''
+      this.$emit('handleReplyDel')
     },
     handleSubmit(){
       this.$emit('submit',this.content)
@@ -85,21 +92,21 @@ export default {
       this.editTag = '1'
       this.editDress = true
       let reg = /^[\u4E00-\u9FA5A-Za-z0-9_\\/()/-_《》-]+$/
-      if (this.userInfo.address) {
-        if (new RegExp(reg).test(this.userInfo.address) == false) {
-          console.log(
-            'new RegExp(reg).test(this.userInfo.address)',
-            this.userInfo.address
-          )
-          this.$message({
-            type: 'error',
-            message: '单位地址格式不正确',
-          })
-        } else {
-          // 掉后台接口
-          // this.editCompanyBasic()
-        }
-      }
+      // if (this.userInfo.address) {
+      //   if (new RegExp(reg).test(this.userInfo.address) == false) {
+      //     console.log(
+      //       'new RegExp(reg).test(this.userInfo.address)',
+      //       this.userInfo.address
+      //     )
+      //     this.$message({
+      //       type: 'error',
+      //       message: '单位地址格式不正确',
+      //     })
+      //   } else {
+      //     // 掉后台接口
+      //     // this.editCompanyBasic()
+      //   }
+      // }
     },
     dressInputClick () {
       this.editDress = false
