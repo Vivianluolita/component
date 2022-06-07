@@ -3,36 +3,39 @@
     <!--状态值： 1. 只有评论框areaText： save cancel delete -->
     <div v-if="deleteCom">
       <!-- 主输入评论框 -->
-      <CommentBox :CommentData="CommentData" :commentStatus='commentStatus' @submit="addNewComment" @handleDelete="handleDelete"/>
+      <CommentBox
+        :CommentData="CommentData"
+        :commentStatus="commentStatus"
+        @handleDelete="handleDelete"
+        @submit="addNewComment"
+      />
     </div>
     <!-- 留言 -->
     <!-- 状态值： 2. 有文本可以回复 -->
     <div v-if="comment && commentStatus === 2">
-      <div  :key="index" v-for="(item,index) in comment">
+      <div :key="index" v-for="(item,index) in comment">
         <div>
           <CommentItem
             :avatar="item.avatar"
-            :content="item.content"
-            :time="item.time"
-            :user="item.user"
+            :content.sync="item.content"
             :id="item.id"
+            :time="item.time"
             :type="item.type"
+            :user="item.user"
           />
         </div>
 
         <!-- 留言列表 -->
         <ReplyContainer v-if="item.replies">
           <ReplyItem
-       
-            :id="item.replies.id"
-            :avatar="item.replies.avatar"
-            :content="item.replies.content"
-            :key="item.replies.id"
-            :time="item.replies.time"
-            :user="item.replies.user"
+            :avatar.sync="item.replies.avatar"
+            :content.sync="item.replies.content"
+            :id.sync="item.replies.id"
+            :time.sync="item.replies.time"
+            :user.sync="item.replies.user"
           />
         </ReplyContainer>
-      </div>  
+      </div>
     </div>
     <!--  -->
     <!-- <div v-if="comment">
@@ -61,7 +64,7 @@
         </ReplyContainer>
       </div>  
     </div>
-    <ReplyBox @submit="addNewComment($event, comment.id)" /> -->
+    <ReplyBox @submit="addNewComment($event, comment.id)" />-->
   </div>
 </template>
 
@@ -77,8 +80,27 @@ export default {
     return {
       // 控制状态2：删除评论框
       deleteCom:true,
-      commentStatus:1,// 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编
+      commentStatus:2,// 1. 只有评论框areaText： save cancel delete 2.只有文本，但是可以编辑。 3. 有文本可以回复 4. 有回复框areaText : save cancel delete 5. 有回复文本，但是可以编
       comment: [
+        {
+          id: 1,
+          user: "liyujia",
+          avatar: "",
+          time: "2022.5.30",
+          content: "评论1",
+          type: "comment",
+          // replies: 
+            // {
+            //   id: 1,
+            //   user: "liyujia02-replay",
+            //   avatar: "",
+            //   time: "2022-5.31",
+            //   content: "评论1的回复1",
+            //   type: "reply"
+            // }
+     
+          
+        },
         {
           id: 1,
           user: "liyujia",
@@ -98,26 +120,7 @@ export default {
      
           
         },
-        {
-          id: 1,
-          user: "liyujia",
-          avatar: "",
-          time: "2022.5.30",
-          content: "评论2",
-          type: "comment",
-          replies: 
-            {
-              id: 1,
-              user: "liyujia02-replay",
-              avatar: "",
-              time: "2022-5.31",
-              content: "评论2的回复1",
-              type: "reply"
-            },
- 
-        
-          
-        }
+      
       ]
     };
   },

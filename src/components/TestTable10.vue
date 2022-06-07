@@ -1,12 +1,12 @@
 <template>
-<div>
-  <el-button @click="addComment">add</el-button>
-  <div v-for="(item,index) in editor.allComment" :key="index">
-    <span>{{index}}</span>
-  <!-- <Comments v-model="CommentData"/> -->
-  <Comments/>
+  <div>
+    <!-- <el-button @click="addComment">add</el-button> -->
+    <!-- <div :key="index" v-for="(item,index) in editor.allComment">
+    <span>{{index}}</span>-->
+    <!-- <Comments v-model="CommentData"/> -->
+    <Comments />
+    <!-- </div> -->
   </div>
-</div>
 </template>
 
 <script>

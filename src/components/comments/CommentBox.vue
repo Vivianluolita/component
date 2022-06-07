@@ -1,42 +1,35 @@
 <template>
-<div>
-  <!-- <div v-if="commentStatus === 1">
-    <el-form @click.prevent="handleSubmit()">
-      <textarea class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="content"></textarea>
-      <input class="px-4" type="submit" value="save" />
-      <input class="px-4" type="reset" value="cancel" />
-      <input class="px-4" type="reset" value="delete" />
-    </el-form>
-  </div> -->
-  <div v-if="commentStatus === 1">
-    <div class="img-class">
-      <span v-if="editDress"
-            :style="userInfo.address ? '' : 'color:#999;'">{{ userInfo.address ? userInfo.address : '' }}</span>
-      <!-- <el-input class="input-cname"
-                :maxlength="100"
-                @blur="dressInputBlur"
-                @focus="isCloseOne = false"
-                v-else
-                v-model="userInfo.address"
-                ref="addressRef"></el-input> -->
-      <el-form  v-else @click.prevent="handleSubmit()">
-        <!-- isCloseOne 聚焦的时候要掉接口 -->
-        <!-- @blur="dressInputBlur" -->
-        <!-- <textarea :value="targetValue" @input="changeValue"  @focus="isCloseOne = false" :maxlength="100"  ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea> -->
-        <textarea @focus="isCloseOne = false" :maxlength="100"  ref="addressRef" class="areaStyle" id name="comment" placeholder="请输入你的评论" v-model="userInfo.address"></textarea>
-      </el-form>        
+  <div>
+    <div v-if="commentStatus === 1">
+      <div class="img-class">
+        <span
+          :style="userInfo.address ? '' : 'color:#999;'"
+          v-if="editDress"
+        >{{ userInfo.address ? userInfo.address : '' }}</span>
 
-    </div>
-    <div v-if="editDress">
-      <el-button  @click="dressInputClick" >modify</el-button>
-    </div>
-    <div v-if="!editDress">
-      <el-button  @click="btnSave()" >save</el-button>
-      <el-button  @click="btnCancel()" >cancel</el-button>
-      <el-button  @click="btnDelete()" >delete</el-button>
+        <el-form @click.prevent="handleSubmit()" v-else>
+          <textarea
+            :maxlength="100"
+            @focus="isCloseOne = false"
+            class="areaStyle"
+            id
+            name="comment"
+            placeholder="请输入你的评论"
+            ref="addressRef"
+            v-model="userInfo.address"
+          ></textarea>
+        </el-form>
+      </div>
+      <div v-if="editDress">
+        <el-button @click="dressInputClick">modify</el-button>
+      </div>
+      <div v-if="!editDress">
+        <el-button @click="btnSave()">save</el-button>
+        <el-button @click="btnCancel()">cancel</el-button>
+        <el-button @click="btnDelete()">delete</el-button>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 
