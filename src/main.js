@@ -11,6 +11,8 @@ Vue.use(VueAxios, axios);
 import "element-ui/lib/theme-chalk/index.css";
 import Mock from "./mock/mock";
 import echarts from 'echarts';
+import Tooltip from 'vue-directive-tooltip';
+import 'vue-directive-tooltip/dist/vueDirectiveTooltip.css';
 Vue.prototype.$echarts = echarts;
 Mock.mockData();
 Vue.use(ElementUI);
@@ -24,6 +26,13 @@ Vue.use(MyDialog)
 import MyDialogAnimal from './components/my-dialog-animal/index'
 Vue.use(MyDialogAnimal)
 import MyDialogContent from './components/my-dialogcontent/index'
+Vue.use(Tooltip, {
+  delay: 500,
+  placement: 'right',
+  class: 'tooltip-red',
+  triggers: ['hover'],
+  offset: 0
+});
 Vue.use(MyDialogContent)
 
 Vue.config.productionTip = false;

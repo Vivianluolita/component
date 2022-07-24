@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="addItem()">add</button>
     <!--状态值： 1. 只有评论框areaText： save cancel delete -->
     <div v-if="deleteCom">
       <!-- 主输入评论框 -->
@@ -14,6 +15,8 @@
     <!-- 状态值： 2. 有文本可以回复 -->
     <div v-if="comment && commentStatus === 2">
       <div :key="index" v-for="(item,index) in comment">
+        <span>{{index}}</span>
+        <i @click="test(index)">test</i>
         <div>
           <CommentItem
             :avatar="item.avatar"
@@ -23,6 +26,33 @@
             :type="item.type"
             :user="item.user"
           />
+        </div>
+
+        <!-- 留言列表 -->
+        <ReplyContainer v-if="item.replies">
+          <ReplyItem
+            :avatar.sync="item.replies.avatar"
+            :content.sync="item.replies.content"
+            :id.sync="item.replies.id"
+            :time.sync="item.replies.time"
+            :user.sync="item.replies.user"
+          />
+        </ReplyContainer>
+      </div>
+      <div :key="index" v-for="(item,index) in comment">
+        <div v-if="item.user === 'newadd'">
+          <span>{{index}}</span>
+          <i @click="test(index)">test</i>
+          <div>
+            <CommentItem
+              :avatar="item.avatar"
+              :content.sync="item.content"
+              :id="item.id"
+              :time="item.time"
+              :type="item.type"
+              :user="item.user"
+            />
+          </div>
         </div>
 
         <!-- 留言列表 -->
@@ -84,11 +114,10 @@ export default {
       comment: [
         {
           id: 1,
-          user: "liyujia",
-          avatar: "",
+          user: "qianyilun1",
           time: "2022.5.30",
           content: "评论1",
-          type: "comment",
+          replies:null
           // replies: 
             // {
             //   id: 1,
@@ -102,20 +131,16 @@ export default {
           
         },
         {
-          id: 1,
-          user: "liyujia",
-          avatar: "",
+          id: 2,
+          user: "qianuilun2",
           time: "2022.5.30",
           content: "评论1",
-          type: "comment",
           replies: 
             {
               id: 1,
               user: "liyujia02-replay",
-              avatar: "",
               time: "2022-5.31",
               content: "评论1的回复1",
-              type: "reply"
             }
      
           
@@ -139,6 +164,19 @@ export default {
     ReplyItem
   },
   methods: {
+    test(ind){
+      alert(ind)
+    },
+    addItem(){
+      let newComment = {
+        id: null,
+        user: "newadd",
+        avatar: "new",
+        time: "2022-6.1",
+        content: 'add new'
+      };
+      this.comment.push(newComment)
+    },
     handleDelete(){
       this.deleteCom = false
     },

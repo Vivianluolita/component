@@ -25,6 +25,7 @@
     <!-- <p class="text-gray-600 py-4">{{ content }}</p> -->
     <!-- 只有评论进行回复，回复不进行回复 -->
     <!-- <ReplyBox @submit="addNewComment($event, comment.id)" /> -->
+
     <textarea
       :maxlength="100"
       :value="content"
